@@ -1,4 +1,3 @@
-#yeetus that feetus and deletus my penus
 otto = list(range(1,13))
 eng = list(range(41,53))
 spa = list(range(21, 33))
@@ -161,7 +160,7 @@ def assignEmpire(player_count):
 
 def empireToPlayer(empire):
     if empire  == flagDict.keys:
-        pass
+        
     else:
         return "Doesn't belong to any player"
         
