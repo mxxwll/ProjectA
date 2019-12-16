@@ -11,12 +11,8 @@ neu = neu1 + neu2 + neu3
 global player, flagDict, player_count, player_names
 player = 1
 playerNames = []
-flagDict = {
-    'otto': 0,
-    'eng': 0,
-    'spa': 0,
-    'nl': 0
-}
+rijken = {"otto","spa","nl","eng"}
+flagDict = {}
 
 
 ottoStart =[7]
@@ -129,30 +125,33 @@ def embargoEvent(player):
     print("Embargo")
 
 def inputPlayer():
+    global playerNames,flagDict
     player_count = int(input("How many players? (2-6): "))
+    
     for i in range(1, player_count + 1):
         spelerNaam = input("Input player " + str(i) + "'s name: ")
         playerNames.append(spelerNaam)
-
+        flagDict[spelerNaam] = None
     return player_count
 
 def assignEmpire(player_count):
     """ To do: make sure an empire is not already used by a player"""
 
     for i in range(player_count):
-        empirePlayer = input(playerNames[i] + " , which Empire would you like to take: (otto, eng, spa, ned) " + "\n")
-        if empirePlayer== 'otto':
-            flagDict['otto'] = i
-            print(str("Player " + playerNames[i]) + " claimed the Ottomanian empire and starts on " + str(ottoStart) + "\n")
-        elif empirePlayer == 'eng':
-            flagDict['eng'] = i
-            print(str("Player " + playerNames[i]) + " claimed the empire of England and starts on " + str(engStart) + "\n")
-        elif empirePlayer == 'spa':
-            print(str("Player " + playerNames[i]) + " claimed the empire of Spain and starts on " + str(spaStart) + "\n")
-            flagDict['spa'] = i
-        elif empirePlayer == 'ned':
-            print(str("Player " + playerNames[i]) + " claimed the empire of the Netherlands and starts on " + str(nlStart) )
-            flagDict['ned'] = i
+        global rijken,flagDict
+        empirePlayer = input(playerNames[i] + " , which Empire would you like to take: " + str(rijken) + "\n")
+        if empirePlayer == "otto":
+            flagDict[playerNames[i]] = "otto"
+            rijken.remove("otto")
+        elif empirePlayer == "eng":
+            flagDict[playerNames[i]] = "eng"
+            rijken.remove("eng")
+        elif empirePlayer == "spa":
+            flagDict[playerNames[i]] = "spa"
+            rijken.remove("spa")
+        elif empirePlayer == "nl":
+            flagDict[playerNames[i]] = "nl"
+            rijken.remove("nl")
         else:
             print("Invalid input")
             assignEmpire(player_count)
@@ -171,7 +170,7 @@ def main():
     assignEmpire(amountOfPlayers)
     whichNumber = int(input("Position of the player (under 80): "))
     whichEmpire = belongsToEmpire(whichNumber)
-
+    
     requestEmpireCard(whichNumber, whichNumber)
     triggerEvent(whichNumber)
     nextPlayer()
