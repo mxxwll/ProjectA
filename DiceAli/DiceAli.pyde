@@ -60,20 +60,15 @@ def draw():
     else:
         c = color(255)
     
-    if start < eind:
-        roll = random.randint(1,6)
+    if start <= eind:
+        showdobbel(random.randint(1,6))
         start += 1
-    showdobbel()
-    
+    if start == eind:
+        roll = random.randint(1,6)
+    showdobbel(roll)
 
-def showdobbel():
-    global roll 
+def showdobbel(roll):
     
-    
-    
-        
-        
-     
     if roll == 1:
         circle(x+w/2,y+w/2,10)
     if roll == 2:
