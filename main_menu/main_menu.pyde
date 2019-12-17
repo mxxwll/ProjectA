@@ -100,7 +100,15 @@ def mousePressed():
         elif mouseX > x2 and mouseX < x2+w and mouseY > y2 and mouseY < y2+w:
             players = 4
             scherm = 2
+    if scherm == 2:
+        if isMouseInSpace(width/6 - 100,80,200,20):
+            scherm = 1
+            #naar aantal spelers
     if scherm == 100:
         if isMouseInSpace(width/6 - 100,80,200,20):
             scherm = 0
             #naar main menu
+            
+
+def keyPressed():
+    screen2.keyPressed()

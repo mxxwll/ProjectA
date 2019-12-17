@@ -6,7 +6,7 @@ def draw(players):
     textAlign(CENTER)                                        
     text("Spelers",width/2,80)
     textAlign(CENTER)
-    text("Vul de namen in van de spelers",width/2,120)
+    text("Vul de namen in van de spelers:",width/2,120)
     
     for x in range(1,players+1):
         text("Speler " + str(x) + " :",width/3,100+(48*x))
