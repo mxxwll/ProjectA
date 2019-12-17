@@ -49,7 +49,7 @@ def draw():
         textAlign(CENTER)
         text("Terug",width/6,100)
     if scherm == 2:
-        screen2.draw()
+        screen2.draw(players)
         image(frame,0,0,width,height)
         textAlign(CENTER)
         text("Terug",width/6,100)

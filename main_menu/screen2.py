@@ -1,5 +1,5 @@
 s = ''
-def draw():
+def draw(players):
     f = createFont("Harrington",32)
     global s
     textFont(f)
