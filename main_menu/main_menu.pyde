@@ -1,4 +1,12 @@
-import start_spel, handleiding
+w = 90          
+x = 860
+y = 250
+x2 = x+100
+y2 = y+100
+players = ""
+
+
+import screen1, screen2, handleiding
 
 
 def setup():
@@ -36,11 +44,16 @@ def draw():
         hollowRect(width/7,460,230,50)
         text("Verlaat",width/5,500)
     if scherm == 1:
-        start_spel.draw()
+        screen1.draw()
         image(frame,0,0,width,height)
         textAlign(CENTER)
         text("Terug",width/6,100)
     if scherm == 2:
+        screen2.draw()
+        image(frame,0,0,width,height)
+        textAlign(CENTER)
+        text("Terug",width/6,100)
+    if scherm == 100:
         handleiding.draw()
         image(frame,0,0,width,height)
         textAlign(CENTER)
@@ -60,12 +73,13 @@ def hollowRect(x,y,w,h):
 
 def mousePressed():
     global scherm
+    global players
     if scherm == 0: 
         if isMouseInSpace(width/5 - 100,280,200,20):
             scherm = 1 
             #naar spel
         if isMouseInSpace(width/5 - 100,380,200,20):
-            scherm = 2
+            scherm = 100
             #naar handleiding
         if isMouseInSpace(width/5 - 100,480,200,20):
             exit()
@@ -74,7 +88,19 @@ def mousePressed():
         if isMouseInSpace(width/6 - 100,80,200,20):
             scherm = 0
             #naar main menu
-    if scherm == 2:
+        if x < mouseX < x+w and mouseY > y and mouseY < y+w:
+            players = 1
+            scherm = 2
+        elif mouseX > x2 and mouseX < x2+w and mouseY > y and mouseY < y+w:
+            players = 2
+            scherm = 2
+        elif mouseX > x and mouseX < x+w and mouseY > y2 and mouseY < y2+w:
+            players = 3
+            scherm = 2
+        elif mouseX > x2 and mouseX < x2+w and mouseY > y2 and mouseY < y2+w:
+            players = 4
+            scherm = 2
+    if scherm == 100:
         if isMouseInSpace(width/6 - 100,80,200,20):
             scherm = 0
             #naar main menu
