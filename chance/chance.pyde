@@ -1,3 +1,4 @@
+#chance program omegaluo
 import s1char,s2char,s3char
 import random
 def calcproc():
