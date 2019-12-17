@@ -166,10 +166,13 @@ def assignEmpire(player_count):
         else:
             print("Invalid input")
             assignEmpire(player_count)
-    for i in flagDict:
-        posDict[flagDict[i]] = startPosDict[i]
+    assignPosition()
     return player_count, flagDict
 
+def assignPosition():
+    global posDict
+    for name  in playerNames:
+        posDict[name] = startPosDict[flagDict[name]]
 def addRoll(player,roll):
     global posDict
     posDict[player] += roll
