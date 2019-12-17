@@ -1,10 +1,12 @@
 import s1char,s2char,s3char
+import random
 def calcproc():
+    return random.randint(0,len(cardarr)-1)
     
 def setup():
     global maincolor,secondcolor
-    global frame
-    global button1args
+    global frame,cardarr
+    global button1args,screen
     global mainFont
     fullScreen()
     frame = loadImage("frame.png")
@@ -12,6 +14,8 @@ def setup():
     #colors
     maincolor = color(234,222,191)
     secondcolor = color(146,128,60)
+    
+    screen = 1
     
     #fonts
     mainFont = createFont("harrington",100)
@@ -29,7 +33,7 @@ def setup():
     winst = loadImage("winst.png")
     
     cardarr = [ctf,diplo,embargo,gehrout,golf,huur,smeer,smok,verl,winst]
-    
+
 
     wid = width/8
     button1args = [width/2-wid,height/2,wid,wid]
@@ -44,7 +48,7 @@ def draw():
     if screen == 1:
         s1char.draw()
     elif screen ==2:
-        s2char.draw()
+        s2char.draw(card)
     elif screen == 3:
         s3char.draw()
     
@@ -52,8 +56,13 @@ def inRect(x,y,w,h):
     return (x < mouseX < x+w) and (y<mouseY<y+h)
 
 def mousePressed():
-    screen == 1:
+    global card,screen
+    if screen == 1:
         if inRect(*button1args):
-            calcproc()
-            screen == 2
+            card = calcproc()
+            s2char.setup()
+            screen = 2
+    elif screen == 2:
+        screen = 1
+    
         
