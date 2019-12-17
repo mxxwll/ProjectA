@@ -17,5 +17,5 @@ def setup():
 def draw(card):
     wid = width/5
     hei = height/2
-    image(cardarr[card],width/2-wid,height/6,wid,hei)
+    image(cardarr[card],width/2-wid/2,height/4,wid,hei)
     

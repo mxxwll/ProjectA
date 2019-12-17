@@ -59,10 +59,9 @@ def inRect(x,y,w,h):
 def mousePressed():
     global card,screen
     if screen == 1:
-        if inRect(*button1args):
-            card = calcproc()
-            s2char.setup()
-            screen = 2
+        card = calcproc()
+        s2char.setup()
+        screen = 2
     elif screen == 2:
         screen = 1
     
