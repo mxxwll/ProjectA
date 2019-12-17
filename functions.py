@@ -8,7 +8,7 @@ neu2 = list(range(54, 60))
 neu3 = list(range(74, 80))
 neu = neu1 + neu2 + neu3
 
-global player, flagDict, player_count, player_names
+global player, flagDict, player_count, playerNames
 player = 1
 playerNames = []
 rijken = {"otto","spa","nl","eng"}
@@ -118,6 +118,7 @@ def nextPlayer():
 def drawEventCard(player):
     """
     """
+
 def boycotEvent(player):
     print("Boycot")
 
@@ -127,9 +128,11 @@ def allianceEvent(player):
 def embargoEvent(player):
     """Code: Player waits one turn and can't dice in the next round."""
     print("Embargo")
+
 def printStatus():
     for name in posDict:
         print(name + " = " + posDict[name])
+        
 def inputPlayer():
     global playerNames,flagDict,current_player,posDict
     player_count = int(input("How many players? (2-6): "))
@@ -144,7 +147,7 @@ def inputPlayer():
 
 def assignEmpire(player_count):
     """ To do: make sure an empire is not already used by a player"""
-    global posDict
+    global posDict,flagDict
     for i in range(player_count):
         global rijken,flagDict
         empirePlayer = input(playerNames[i] + " , which Empire would you like to take: " + str(rijken) + "\n")
@@ -167,6 +170,17 @@ def assignEmpire(player_count):
         posDict[flagDict[i]] = startPosDict[i]
     return player_count, flagDict
 
+def addRoll(player,roll):
+    global posDict
+    posDict[player] += roll
+
+def endTurn():
+    global current_player
+    curIndex = playerNames.index(current_player)
+    try:
+        current_player = playerNames[curIndex+1]
+    except IndexError:
+        current_player = playerNames[0]
 def empireToPlayer(empire):
     if empire  == flagDict.keys:
         pass
