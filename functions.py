@@ -15,10 +15,14 @@ rijken = {"otto","spa","nl","eng"}
 flagDict = {}
 
 
-ottoStart =[7]
-engStart = [47]
-spaStart = [27]
-nlStart = [67]
+
+
+startPosDict = {
+    "otto" : 7,
+    "spa" : 27,
+    "eng" : 47,
+    "nl" : 67
+}
 
 ottoCard = [2, 4, 6, 9, 11, 13]
 engCard = [42, 44, 46, 49, 51, 53]
@@ -123,20 +127,24 @@ def allianceEvent(player):
 def embargoEvent(player):
     """Code: Player waits one turn and can't dice in the next round."""
     print("Embargo")
-
+def printStatus():
+    for name in posDict:
+        print(name + " = " + posDict[name])
 def inputPlayer():
-    global playerNames,flagDict
+    global playerNames,flagDict,current_player,posDict
     player_count = int(input("How many players? (2-6): "))
-    
+    posDict = {}
     for i in range(1, player_count + 1):
         spelerNaam = input("Input player " + str(i) + "'s name: ")
         playerNames.append(spelerNaam)
         flagDict[spelerNaam] = None
+        
+    current_player = playerNames[0]
     return player_count
 
 def assignEmpire(player_count):
     """ To do: make sure an empire is not already used by a player"""
-
+    global posDict
     for i in range(player_count):
         global rijken,flagDict
         empirePlayer = input(playerNames[i] + " , which Empire would you like to take: " + str(rijken) + "\n")
@@ -155,7 +163,8 @@ def assignEmpire(player_count):
         else:
             print("Invalid input")
             assignEmpire(player_count)
-
+    for i in flagDict:
+        posDict[flagDict[i]] = startPosDict[i]
     return player_count, flagDict
 
 def empireToPlayer(empire):
@@ -168,11 +177,8 @@ def empireToPlayer(empire):
 def main():
     amountOfPlayers = inputPlayer()
     assignEmpire(amountOfPlayers)
-    whichNumber = int(input("Position of the player (under 80): "))
-    whichEmpire = belongsToEmpire(whichNumber)
     
-    requestEmpireCard(whichNumber, whichNumber)
-    triggerEvent(whichNumber)
+    
     nextPlayer()
     print("\n")
     main()
