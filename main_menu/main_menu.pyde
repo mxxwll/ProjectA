@@ -10,7 +10,7 @@ import screen1, screen2, handleiding
 
 
 def setup():
-    global f, f1
+    global f, f1, f2
     global scherm, maincolor
     global schip, frame, handleiding1, handleiding2
     fullScreen()
@@ -21,11 +21,12 @@ def setup():
     maincolor = color(234,222,191)
     f = createFont("Harrington",40)
     f1 = createFont("Harrington",80)
+    f2 = createFont("Harrington",30)
     scherm = 0
     
     
 def draw():
-    global f, f1
+    global f, f1, f2
     global scherm
     background(maincolor)
     if scherm == 0:
@@ -38,29 +39,32 @@ def draw():
         textFont(f)
         textAlign(CENTER)
         hollowRect(width/7,260,230,50)
-        text("Start spel",width/5,300) 
+        text("Start Spel",width/5,300) 
         textAlign(CENTER)
         hollowRect(width/7,360,230,50)
         text("Handleiding",width/5,400)
         textAlign(CENTER)
         hollowRect(width/7,460,230,50)
-        text("Verlaat",width/5,500)
+        text("Verlaat Spel",width/5,500)
     if scherm == 1:
         screen1.draw()
         image(frame,0,0,width,height)
+        textFont(f2)
         textAlign(CENTER)
-        text("Terug",width/6,100)
+        text("Terug",width/6,1000)
     if scherm == 2:
         screen2.draw(players)
         image(frame,0,0,width,height)
+        textFont(f2)
         textAlign(CENTER)
-        text("Terug",width/6,100)
+        text("Terug",width/6,1000)
     if scherm == 100:
         handleiding.draw()
         image(handleiding1,0,0,width,height)
         image(frame,0,0,width,height)
+        textFont(f2)
         textAlign(CENTER)
-        text("Terug",width/6,100)
+        text("Terug",width/6,1000)
         
         
 def isMouseInSpace(x, y, w, h):
