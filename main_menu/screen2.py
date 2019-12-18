@@ -1,4 +1,9 @@
 s = ''
+def backSpace(s):
+    s = list(s)
+    del s[-1]
+    s = "".join(s)
+    return s
 def draw(players):
     f = createFont("Harrington",32)
     global s
@@ -15,3 +20,5 @@ def draw(players):
 def keyPressed():
     global s
     s += key
+    if keyCode == 8:
+        s = backSpace(s)
