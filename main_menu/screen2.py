@@ -1,4 +1,5 @@
-s = ''
+slist = []
+s = ""
 shift = False
 def backSpace(s):
     try:
@@ -9,6 +10,11 @@ def backSpace(s):
     else:
         s = "".join(s)
         return s
+def endName():
+    global slist
+    if len(slist) < players-1:
+        slist.append(s)
+        s = ""
 def draw(players):
     f = createFont("Harrington",32)
     global s
@@ -25,16 +31,19 @@ def draw(players):
 def keyPressed():
     global s,shift
     print(keyCode)
-    if keyCode == 16:
-        shift = True
+    if keyCode == 13:
+        endName()
     else:
-        shift = False
-        if len(s) < 12:
-            if keyCode == 8:
-                s = backSpace(s)
-            else:
-                if shift:
-                    s += str(key).upper()
+        if keyCode == 16:
+            shift = True
+        else:
+            shift = False
+            if len(s) < 12:
+                if keyCode == 8:
+                    s = backSpace(s)
                 else:
-                    s += str(key)
-    
+                    if shift:
+                        s += str(key).upper()
+                    else:
+                        s += str(key)
+        
