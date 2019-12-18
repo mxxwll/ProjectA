@@ -12,10 +12,12 @@ import screen1, screen2, handleiding
 def setup():
     global f, f1
     global scherm, maincolor
-    global schip, frame
+    global schip, frame, handleiding1, handleiding2
     fullScreen()
     schip = loadImage("schip.png")
     frame = loadImage("frame.png")
+    handleiding1 = loadImage("handleiding1.png")
+    handleiding2 = loadImage("handleiding2.png")
     maincolor = color(234,222,191)
     f = createFont("Harrington",40)
     f1 = createFont("Harrington",80)
@@ -55,6 +57,7 @@ def draw():
         text("Terug",width/6,100)
     if scherm == 100:
         handleiding.draw()
+        image(handleiding1,0,0,width,height)
         image(frame,0,0,width,height)
         textAlign(CENTER)
         text("Terug",width/6,100)
