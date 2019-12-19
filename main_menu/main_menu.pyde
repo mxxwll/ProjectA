@@ -6,13 +6,14 @@ y2 = y+100
 players = ""
 
 
-import screen1, screen2, handleiding
-
+import screen0,screen1, screen2, handleiding
+import os
 
 def setup():
     global f, f1, f2
     global scherm, maincolor
     global schip, frame, handleiding1, handleiding2
+    
     fullScreen()
     schip = loadImage("schip.png")
     frame = loadImage("frame.png")
@@ -24,47 +25,41 @@ def setup():
     f2 = createFont("Harrington",30)
     scherm = 0
     
+    global backW,backH,backX,backY
+    backX = width/6
+    backY = height-height/6
+    backW = 150
+    backH = 40
+    
+    
     
 def draw():
     global f, f1, f2
     global scherm
     background(maincolor)
+    
+    textFont(f2)
+    textAlign(CENTER)
     if scherm == 0:
-        image(schip,0,0,width,height)
-        image(frame,0,0,width,height)
-        textFont(f1)
-        fill(0)
-        textAlign(CENTER)
-        text("Vlaggenjacht",width/4,150)
-        textFont(f)
-        textAlign(CENTER)
-        hollowRect(width/7,260,230,50)
-        text("Start Spel",width/5,300) 
-        textAlign(CENTER)
-        hollowRect(width/7,360,230,50)
-        text("Handleiding",width/5,400)
-        textAlign(CENTER)
-        hollowRect(width/7,460,230,50)
-        text("Verlaat Spel",width/5,500)
-    if scherm == 1:
+        screen0.setup()
+        screen0.draw()
+    elif scherm == 1:
         screen1.draw()
-        image(frame,0,0,width,height)
+
         textFont(f2)
         textAlign(CENTER)
         text("Terug",width/6,1000)
-    if scherm == 2:
+    elif scherm == 2:
         screen2.draw(players)
-        image(frame,0,0,width,height)
+
         textFont(f2)
         textAlign(CENTER)
         text("Terug",width/6,1000)
-    if scherm == 100:
+    elif scherm == 100:
+        handleiding.setup()
         handleiding.draw()
-        image(handleiding1,0,0,width,height)
-        image(frame,0,0,width,height)
-        textFont(f2)
-        textAlign(CENTER)
-        text("Terug",width/6,1000)
+    image(frame,0,0,width,height)
+        
         
         
 def isMouseInSpace(x, y, w, h):
@@ -112,7 +107,7 @@ def mousePressed():
             scherm = 1
             #naar aantal spelers
     if scherm == 100:
-        if isMouseInSpace(width/6 - 100,80,200,20):
+        if isMouseInSpace(backX,backY,backW,backH):
             scherm = 0
             #naar main menu
             
