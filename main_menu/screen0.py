@@ -18,11 +18,12 @@ def draw():
     textFont(f1)
     text("Vlaggenjacht",width/4,150)
     textFont(f)
-    hollowRect(width/7,260,230,50)
+    fill(255,0,0,63)
+    rect(width/7,260,230,50)
+    rect(width/7,360,230,50)
+    rect(backX,backY,backW,backH)
     text("Start Spel",width/5,300) 
-    hollowRect(width/7,360,230,50)
     text("Handleiding",width/5,400)
-    hollowRect(backX,backY,backW,backH)
     text("Verlaat Spel",width/5,500)
 
     
