@@ -1,5 +1,6 @@
 import functions
 
+
 def hollowRect(x,y,w,h):
     line(x,y,x+w,y)
     line(x,y,x,y+h)
@@ -19,6 +20,10 @@ def setup():
     
     global standardFont
     standardFont = createFont("Harrington",25)
+    
+    global game,menu
+    game = False
+    menu = True
 
     
 def draw():
