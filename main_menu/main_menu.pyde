@@ -6,60 +6,58 @@ y2 = y+100
 players = ""
 
 
-import screen0,screen1, screen2, handleiding
-import os
+import screen1, screen2, handleiding
+
 
 def setup():
-    global f, f1, f2
+    global f, f1
     global scherm, maincolor
-    global schip, frame, handleiding1, handleiding2
-    
+    global schip, frame
     fullScreen()
     schip = loadImage("schip.png")
     frame = loadImage("frame.png")
-    handleiding1 = loadImage("handleiding1.png")
-    handleiding2 = loadImage("handleiding2.png")
     maincolor = color(234,222,191)
     f = createFont("Harrington",40)
     f1 = createFont("Harrington",80)
-    f2 = createFont("Harrington",30)
     scherm = 0
-    
-    global backW,backH,backX,backY
-    backX = width/6
-    backY = height-height/6
-    backW = 150
-    backH = 40
-    
     
     
 def draw():
-    global f, f1, f2
+    global f, f1
     global scherm
     background(maincolor)
-    
-    textFont(f2)
-    textAlign(CENTER)
     if scherm == 0:
-        screen0.setup()
-        screen0.draw()
-    elif scherm == 1:
+        image(schip,0,0,width,height)
+        image(frame,0,0,width,height)
+        textFont(f1)
+        fill(0)
+        textAlign(CENTER)
+        text("Vlaggenjacht",width/4,150)
+        textFont(f)
+        textAlign(CENTER)
+        hollowRect(width/7,260,230,50)
+        text("Start spel",width/5,300) 
+        textAlign(CENTER)
+        hollowRect(width/7,360,230,50)
+        text("Handleiding",width/5,400)
+        textAlign(CENTER)
+        hollowRect(width/7,460,230,50)
+        text("Verlaat",width/5,500)
+    if scherm == 1:
         screen1.draw()
-
-        textFont(f2)
+        image(frame,0,0,width,height)
         textAlign(CENTER)
-        text("Terug",width/6,1000)
-    elif scherm == 2:
+        text("Terug",width/6,100)
+    if scherm == 2:
         screen2.draw(players)
-
-        textFont(f2)
+        image(frame,0,0,width,height)
         textAlign(CENTER)
-        text("Terug",width/6,1000)
-    elif scherm == 100:
-        handleiding.setup()
+        text("Terug",width/6,100)
+    if scherm == 100:
         handleiding.draw()
-    image(frame,0,0,width,height)
-        
+        image(frame,0,0,width,height)
+        textAlign(CENTER)
+        text("Terug",width/6,100)
         
         
 def isMouseInSpace(x, y, w, h):
@@ -102,15 +100,7 @@ def mousePressed():
         elif mouseX > x2 and mouseX < x2+w and mouseY > y2 and mouseY < y2+w:
             players = 4
             scherm = 2
-    if scherm == 2:
-        if isMouseInSpace(width/6 - 100,80,200,20):
-            scherm = 1
-            #naar aantal spelers
     if scherm == 100:
-        if isMouseInSpace(backX,backY,backW,backH):
+        if isMouseInSpace(width/6 - 100,80,200,20):
             scherm = 0
             #naar main menu
-            
-
-def keyPressed():
-    screen2.keyPressed()
