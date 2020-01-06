@@ -1,4 +1,4 @@
-import rijkb,difb,questionb,answerb
+import rijkb,difb,questionb,answerb,check
 import random
 
 add_library('minim')
@@ -92,8 +92,8 @@ def setup():
     
     
 def draw():
-    global wid,x1,x2,x3,x4,y,wid,x21,x22,y21,y22,wid2
-    
+    global wid,x1,x2,x3,x4,y,wid,x21,x22,y21,y22,wid2,widcheck
+    widcheck = width/10
     wid = width/6
     x1 = width/24
     x2 = x1 + (wid+wid/2)
@@ -143,6 +143,8 @@ def draw():
         questionb.draw(question)
     elif scherm == 4:
         answerb.draw(answer)
+    elif scherm == 5:
+        check.draw()
 
 #functie die een bool terugstuurd die aangeeft of de muis binnen een bepaald vierkant zit
 def mouseInSquare(x,y,w):
@@ -183,7 +185,7 @@ def mouseClicked():
             dif = "easy"
             flashProc()
         elif mouseInSquare(x22,y21,wid):
-            sound.lop(0)
+            sound.loop(0)
             scherm = 3
             dif  = "hard"
             flashProc()
@@ -191,4 +193,10 @@ def mouseClicked():
         scherm = 4
     elif scherm == 4:
         doneProc()
-        scherm = 1
+        scherm = 5
+    elif scherm == 5:
+        if mouseInSquare(width/3-wid/2,height/2,widcheck):
+            scherm = 1
+        if mouseInSquare(width/3*2-wid/2,height/2,widcheck):
+            scherm = 1
+        

@@ -10,10 +10,8 @@ def draw():
     amountPlayers = False
     fill(0)   
     textFont(f)
-    textAlign(CENTER)                                        
     text("Spelers",width/2,80)
     
-    textAlign(CENTER)
     text("Kies hoeveel spelers er meedoen: ",width/2,120)
     
     fill(255,0,0,63)
@@ -26,3 +24,8 @@ def draw():
     text("2",1005,300)
     text("3",905,400)
     text("4",1005,400)  
+def hollowRect(x,y,w,h):
+    line(x,y,x+w,y)
+    line(x,y,x,y+h)
+    line(x,y+h,x+w,y+h)
+    line(x+w,y,x+w,y+h)
