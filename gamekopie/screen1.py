@@ -1,29 +1,37 @@
 def draw():
     f = createFont("Harrington",32)
     textFont(f,30) 
-    w = 90          
-    x = 860
-    y = 250
-    x2 = x+100
-    y2 = y+100
+    w = width/7          
+    x = width/2-width/7-width/14
+    y = height/3
+    x2 = width/2 + width/14
+    y2 = y + w + height/14
+    
+    #1player
+    oneCo = [x,y,w,w]
+    twoCo = [x2,y,w,w]
+    threeCo = [x,y2,w,w]
+    fourCo = [x2,y2,w,w]
+    
     players = ""
     amountPlayers = False
     fill(0)   
     textFont(f)
-    text("Spelers",width/2,80)
+    textSize(75)
+    text("Spelers",width/2,height/8)
     
-    text("Kies hoeveel spelers er meedoen: ",width/2,120)
+    text("Kies hoeveel spelers er meedoen: ",width/2,height/5)
     
     fill(255,0,0,63)
-    rect(x,y,w,w)
-    rect(x2,y,w,w)
-    rect(x,y2,w,w)
-    rect(x2,y2,w,w)
+    rect(*oneCo)
+    rect(*twoCo)
+    rect(*threeCo)
+    rect(*fourCo)
     fill(0)
-    text("1",905,300)
-    text("2",1005,300)
-    text("3",905,400)
-    text("4",1005,400)  
+    text("1",oneCo[0]+oneCo[2]/2,oneCo[1]+oneCo[3]/2)
+    text("2",twoCo[0]+twoCo[2]/2,twoCo[1]+twoCo[3]/2)
+    text("3",threeCo[0]+threeCo[2]/2,threeCo[1]+threeCo[3]/2)
+    text("4",fourCo[0]+fourCo[2]/2,fourCo[1]+fourCo[3]/2)  
 def hollowRect(x,y,w,h):
     line(x,y,x+w,y)
     line(x,y,x,y+h)
