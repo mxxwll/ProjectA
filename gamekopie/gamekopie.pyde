@@ -96,6 +96,19 @@ def setup():
     s = ""
     shift = False
     
+    #coords1
+    ws1 = width/7          
+    xs1 = width/2-width/7-width/14
+    ys1 = height/3
+    x2s1 = width/2 + width/14
+    y2s1 = y + w + height/14
+    
+    global oneCo,twoCo,threeCo,fourCo
+    oneCo = [xs1,ys1,ws1,ws1]
+    twoCo = [x2s1,ys1,ws1,ws1]
+    threeCo = [xs1,y2s1,ws1,ws1]
+    fourCo = [x2s1,y2s1,ws1,ws1]
+    
 def draw():
     background(mainColor)
     fill(0)
@@ -131,7 +144,10 @@ def draw():
     
     #game
     elif phase == 1:
-        game.draw()
+        #stat box
+        hollowRect(*statBox)
+        for i in range(1,players+1):
+            text("speler " + str(i) + ":",statBox[0]+statBox[2]/4,statBox[1]+statBox[3]/5+i*25)
             
 def isMouseInSpace(x, y, w, h):
     return(x < mouseX < x + w and y < mouseY < y + h)
@@ -151,21 +167,22 @@ def mousePressed():
                 exit()
                 #verlaat spel
         if scherm == 1:
-            if isMouseInSpace(width/6 - 100,80,200,20):
+            if isMouseInSpace(*backCo):
                 scherm = 0
                 #naar main menu
-            if x < mouseX < x+w and mouseY > y and mouseY < y+w:
+            elif isMouseInSpace(*oneCo):
                 players = 1
                 scherm = 2
-            elif mouseX > x2 and mouseX < x2+w and mouseY > y and mouseY < y+w:
+            elif isMouseInSpace(*twoCo):
                 players = 2
                 scherm = 2
-            elif mouseX > x and mouseX < x+w and mouseY > y2 and mouseY < y2+w:
+            elif isMouseInSpace(*threeCo):
                 players = 3
                 scherm = 2
-            elif mouseX > x2 and mouseX < x2+w and mouseY > y2 and mouseY < y2+w:
+            elif isMouseInSpace(*fourCo):
                 players = 4
-                scherm = 2
+                scherm = 2    
+            
         if scherm == 2:
             if isMouseInSpace(width/6 - 100,80,200,20):
                 scherm = 1
@@ -193,3 +210,4 @@ def keyPressed():
                             s += str(key).upper()
                         else:
                             s += str(key)
+        screen2.keyPressed()

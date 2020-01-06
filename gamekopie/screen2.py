@@ -1,5 +1,6 @@
 slist = []
 s = ""
+y = 1
 shift = False
 def backSpace(s):
     try:
@@ -11,22 +12,26 @@ def backSpace(s):
         s = "".join(s)
         return s
 def endName():
-    global slist
+    global s,slist,y
     if len(slist) < players-1:
         slist.append(s)
         s = ""
+        if y != players:
+            y += 1
 def draw(players):
     f = createFont("Harrington",32)
     global s
     textFont(f)
-    textAlign(CENTER)                                        
-    text("Spelers",width/2,80)
+    textAlign(CENTER)             
+    textSize(60)                           
+    text("Spelers",width/2,height/8)
     textAlign(CENTER)
-    text("Vul de namen in van de spelers:",width/2,120)
+    text("Vul de namen in van de spelers:",width/2,height/8*2)
+    textSize(40)
     textAlign(LEFT)
     for x in range(1,players+1):
-        text("Speler " + str(x) + " :",width/3,100+(48*x))
-    text(s,width/2.4,145)
+        text("Speler " + str(x) + " :",width/3,height/4+(height/20*x))
+    text(s,width/3+width/10,height/4+(height/20*y))
 
 def keyPressed():
     global s,shift
