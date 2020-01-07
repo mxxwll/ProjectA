@@ -19,6 +19,14 @@ def endName():
         if y != players:
             y += 1
 def draw(players):
+    
+    backX = width/7
+    backY = height-height/4
+    backW = 350
+    backH = 100
+    backCo = [backX,backY,backW,backH]
+    
+    
     f = createFont("Harrington",32)
     global s
     textFont(f)
@@ -32,6 +40,12 @@ def draw(players):
     for x in range(1,players+1):
         text("Speler " + str(x) + " :",width/3,height/4+(height/20*x))
     text(s,width/3+width/10,height/4+(height/20*y))
+    
+    fill(134,122,91,63)
+    rect(*backCo)
+    
+    text("Spelers",width/2,height/8)
+
 
 def keyPressed():
     global s,shift

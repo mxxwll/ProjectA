@@ -39,6 +39,8 @@ def draw():
     text("Vlaggenjacht",width/4,height/10)
     textFont(f)
     fill(secondColor,63)
+    fill(134,122,91,63)
+
     rect(*contCo)
     rect(*guideCo)
     rect(*backCo)

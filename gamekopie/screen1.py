@@ -7,6 +7,13 @@ def draw():
     x2 = width/2 + width/14
     y2 = y + w + height/14
     
+    
+    backX = width/7
+    backY = height-height/4
+    backW = 350
+    backH = 100
+    backCo = [backX,backY,backW,backH]
+    
     #1player
     oneCo = [x,y,w,w]
     twoCo = [x2,y,w,w]
@@ -27,6 +34,10 @@ def draw():
     rect(*twoCo)
     rect(*threeCo)
     rect(*fourCo)
+    
+    fill(134,122,91,63)
+    rect(*backCo)
+
     fill(0)
     text("1",oneCo[0]+oneCo[2]/2,oneCo[1]+oneCo[3]/2)
     text("2",twoCo[0]+twoCo[2]/2,twoCo[1]+twoCo[3]/2)
