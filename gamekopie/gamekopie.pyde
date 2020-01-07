@@ -1,4 +1,4 @@
-import screen0,screen1, screen2, handleiding,functions,game
+import screen0,screen1, screen2, screen3, handleiding,functions,game
 import os
 
 
@@ -81,6 +81,11 @@ def setup():
     contH = 100
     contCo = [contX,contY,contW,contH]
     
+    global okCo
+    okCoX = 750
+    okCoY = 600
+    okCo = [okCoX, okCoY, backW,backH]
+    
     global guideCo
     guideX = width/7
     guideY = contY + contH + height/40
@@ -113,7 +118,8 @@ def draw():
     textFont(standardFont)
     #main menu
     if phase == 0:
-        global f, f1, f2
+        global f, f1, f2, j
+        j = []
         global scherm
         background(maincolor)
         
@@ -125,7 +131,9 @@ def draw():
         elif scherm == 1:
             screen1.draw()
         elif scherm == 2:
-            screen2.draw(players)
+            j = screen2.draw(players)
+        elif scherm == 3:
+            screen3.draw(j)
         elif scherm == 100:
             handleiding.setup()
             handleiding.draw()
@@ -172,9 +180,12 @@ def mousePressed():
                 players = 4
                 scherm = 2    
         if scherm == 2:
+            screen2.mousePressed(players)
             if isMouseInSpace(*backCo):
                 scherm = 1
                 players = 0
+            if isMouseInSpace(*okCo):
+                scherm = 3
                 #naar aantal spelers
         if scherm == 100:
             if isMouseInSpace(*backCo):
@@ -182,21 +193,4 @@ def mousePressed():
                 #naar main menu
 def keyPressed():
     if scherm == 2:
-        global s,shift
-        print(keyCode)
-        if keyCode == 13:
-            endName()
-        else:
-            if keyCode == 16:
-                shift = True
-            else:
-                shift = False
-                if len(s) < 12:
-                    if keyCode == 8:
-                        s = backSpace(s)
-                    else:
-                        if shift:
-                            s += str(key).upper()
-                        else:
-                            s += str(key)
         screen2.keyPressed()
