@@ -43,8 +43,10 @@ def draw(players):
     
     fill(134,122,91,63)
     rect(*backCo)
-    
-    text("Spelers",width/2,height/8)
+    fill(0)
+    textSize(75)
+    text("Terug",backCo[0]+backCo[2]/2,backCo[1]+backCo[3]*0.75)
+
 
 
 def keyPressed():
