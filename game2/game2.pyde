@@ -107,6 +107,7 @@ def draw():
         mainDice.showdobbel(random.randint(1,6))
         if start == eind:
             mainDice.roll()
+            rollProcess2()
         start += 1
     else:
         fill(0)
@@ -120,6 +121,7 @@ def rollProcess1():
     global start
     start = 0
 def rollProcess2():
+    curplayer.changePos(mainDice.value)
     
 def statBox(x,y,w,h):
     hollowRect(x,y,w,h)
@@ -133,8 +135,10 @@ def statBox(x,y,w,h):
         textAlign(LEFT)
         text(empDict[lis[i].empire],x+w-w/3,y+(40*(i+1)))
     textAlign(LEFT)
-    text("Aan de beurt: "+curplayer.name,x+w/4,y+(40*6))
-    
+    try:
+        text("Aan de beurt: "+curplayer.name,x+w/4,y+(40*6))
+    except:
+        text("Aan de beurt: ",x+w/4,y+(40*6))
 def startFunc():
     global startb
     startb = True
