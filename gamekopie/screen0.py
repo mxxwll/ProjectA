@@ -7,25 +7,27 @@ def setup():
     f2 = createFont("Harrington",30)
     
     global backCo
-    backX = width/6
-    backY = height-height/6
-    backW = 150
-    backH = 40
+    backX = width/7
+    backY = height-height/4
+    backW = 350
+    backH = 100
     backCo = [backX,backY,backW,backH]
-    
-    global guideCo
-    guideX = width/7
-    guideY = height/4
-    guideW = 230
-    guideH = 50
-    guideCo = [guideX,guideY,guideW,guideH]
     
     global contCo
     contX = width/7
     contY = height/4-height/20
-    contW = 230
-    contH = 50
+    contW = 350
+    contH = 100
     contCo = [contX,contY,contW,contH]
+    
+    global guideCo
+    guideX = width/7
+    guideY = contY + contH + height/40
+    guideW = 350
+    guideH = 100
+    guideCo = [guideX,guideY,guideW,guideH]
+    
+    
     global mainColor,secondColor
     mainColor = color(234,222,191)
     secondColor = color(134,122,91)
@@ -34,13 +36,14 @@ def draw():
     image(schip,0,0,width,height)
     fill(0)
     textFont(f1)
-    text("Vlaggenjacht",width/4,150)
+    text("Vlaggenjacht",width/4,height/10)
     textFont(f)
     fill(secondColor,63)
     rect(*contCo)
     rect(*guideCo)
     rect(*backCo)
     fill(0)
+    textSize(55)
     text("Start Spel",contCo[0]+contCo[2]/2,contCo[1]+contCo[3]*0.75) 
     text("Handleiding",guideCo[0]+guideCo[2]/2,guideCo[1]+guideCo[3]*0.75)
     text("Verlaat Spel",backCo[0]+backCo[2]/2,backCo[1]+backCo[3]*0.75)

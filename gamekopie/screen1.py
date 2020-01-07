@@ -32,6 +32,10 @@ def draw():
     text("2",twoCo[0]+twoCo[2]/2,twoCo[1]+twoCo[3]/2)
     text("3",threeCo[0]+threeCo[2]/2,threeCo[1]+threeCo[3]/2)
     text("4",fourCo[0]+fourCo[2]/2,fourCo[1]+fourCo[3]/2)  
+    
+    
+    text("Terug",backCo[0]+backCo[2]/2,backCo[1]+backCo[3]*0.75)
+
 def hollowRect(x,y,w,h):
     line(x,y,x+w,y)
     line(x,y,x,y+h)

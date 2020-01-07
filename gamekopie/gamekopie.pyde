@@ -56,11 +56,12 @@ def setup():
     f2 = createFont("Harrington",30)
     scherm = 0
     
-    global backW,backH,backX,backY
-    backX = width/6
-    backY = height-height/6
-    backW = 150
-    backH = 40
+    global backCo
+    backX = width/7
+    backY = height-height/4
+    backW = 350
+    backH = 100
+    backCo = [backX,backY,backW,backH]
     
     global w,x,y,x2,y2,players
     w = 90          
@@ -71,25 +72,25 @@ def setup():
     players = ""
     
     global backCo
-    backX = width/6
-    backY = height-height/6
-    backW = 150
-    backH = 40
+    backX = width/7
+    backY = height-height/4
+    backW = 250
+    backH = 50
     backCo = [backX,backY,backW,backH]
-    
-    global guideCo
-    guideX = width/7
-    guideY = height/4
-    guideW = 230
-    guideH = 50
-    guideCo = [guideX,guideY,guideW,guideH]
     
     global contCo
     contX = width/7
     contY = height/4-height/20
-    contW = 230
-    contH = 50
+    contW = 350
+    contH = 100
     contCo = [contX,contY,contW,contH]
+    
+    global guideCo
+    guideX = width/7
+    guideY = contY + contH + height/40
+    guideW = 350
+    guideH = 100
+    guideCo = [guideX,guideY,guideW,guideH]
 
     global slist,s,shift
     slist = []
@@ -127,16 +128,8 @@ def draw():
             screen0.draw()
         elif scherm == 1:
             screen1.draw()
-    
-            textFont(f2)
-            textAlign(CENTER)
-            text("Terug",width/6,1000)
         elif scherm == 2:
             screen2.draw(players)
-    
-            textFont(f2)
-            textAlign(CENTER)
-            text("Terug",width/6,1000)
         elif scherm == 100:
             handleiding.setup()
             handleiding.draw()
