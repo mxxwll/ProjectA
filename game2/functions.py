@@ -1,4 +1,3 @@
-
 otto = list(range(1,13))
 eng = list(range(41,53))
 spa = list(range(21, 33))
