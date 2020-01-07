@@ -177,7 +177,7 @@ def mousePressed():
                 players = 0
                 #naar aantal spelers
         if scherm == 100:
-            if isMouseInSpace(backX,backY,backW,backH):
+            if isMouseInSpace(*backCo):
                 scherm = 0
                 #naar main menu
 def keyPressed():
