@@ -3,7 +3,7 @@ import random
 add_library('minim')
 test = Minim(this)
 
-start = False
+startb = False
 
 
 playernames = ["Liam","Jaikishan","Ali","Tugkan"]
@@ -79,29 +79,36 @@ class dice:
             circle(x+ w - w/6,y+w-w/6,10)
             circle(x+w/6,y+w/2,10)
             circle(x+w -w/6,y+w/2,10)
+            
 def setup():
     size(1080,720)
     
-    global mainDice
+    global mainDice,curplayer
     mainDice = dice(width/2-100,height/2-100,200)
+    
+    curplayer = checkTurn()
     
     global start,eind
     eind = 50
     start = eind
     
 def draw():
+    global curplayer
     global mainDice,start
     
     background(mainColor)
     textAlign(CENTER)
     
-    statBox(width-300,0,300,200)
+    curplayername = checkTurn()
+    
+    statBox(width-300,0,300,300)
     
     if start <= eind:
         mainDice.showdobbel(random.randint(1,6))
+        if start == eind:
+            mainDice.roll()
         start += 1
     else:
-        mainDice.roll()
         fill(0)
         mainDice.showdobbel(mainDice.value)
 
@@ -109,20 +116,40 @@ def draw():
 def drawCard(empire):
     pass
 
-def rollProcess():
+def rollProcess1():
     global start
     start = 0
+def rollProcess2():
+    
 def statBox(x,y,w,h):
     hollowRect(x,y,w,h)
     fill(0)
     textAlign(RIGHT)
-    lis = [i for i in players]
-    for i in range(len(players)):
+    lis = sorted(players,key=lambda x:x.startpos,reverse=False)
+    for i in range(len(lis)):
         textAlign(RIGHT)
-        text(players[i].name + ":",x+w/3,y+(40*(i+1)))
-        text(players[i].curpos,x+w/2,y+(40*(i+1)))
+        text(lis[i].name + ":",x+w/3,y+(40*(i+1)))
+        text(lis[i].curpos,x+w/2,y+(40*(i+1)))
         textAlign(LEFT)
-        text(empDict[players[i].empire],x+w-w/3,y+(40*(i+1)))
-        
+        text(empDict[lis[i].empire],x+w-w/3,y+(40*(i+1)))
+    textAlign(LEFT)
+    text("Aan de beurt: "+curplayer.name,x+w/4,y+(40*6))
+    
+def startFunc():
+    global startb
+    startb = True
+    p1.startTurn()
+
+
 def mousePressed():
-    rollProcess()
+    if not startb:
+        startFunc()
+    else:
+        rollProcess1()
+
+def checkTurn():
+    global curplayer
+    for i in players:
+        if i.hasturn:
+            return i
+    return None

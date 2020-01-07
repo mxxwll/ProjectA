@@ -197,14 +197,14 @@ class player:
         self.hasturn = False
         
     
-    def changePos(x):
+    def changePos(self,x):
         self.curpos += x
     def getPos():
         return curpos
-    def startTurn():
+    def startTurn(self):
         if self.hasturn == False:
             self.hasturn = True
-    def endTurn():
+    def endTurn(self):
         if self.hasturn == True:
             self.hasturn = False
 
