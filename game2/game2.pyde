@@ -35,21 +35,23 @@ def hollowRect(x,y,w,h):
     line(x+w,y,x+w,y+h)
     
 class dice:
+    value = 1
     def __init__(self,x,y,w):
         self.x = x
         self.y = y
         self.w = w
         self.sides = 6
-        self.value = 1
         
-    def roll():
-        self.value = random.randint(1,sides)
+    def roll(self):
+        self.value = random.randint(1,self.sides)
         
-    def showdobbel(n):
+    def showdobbel(self,n):
         x = self.x
         y = self.y
         w = self.w
+        roll = n
         hollowRect(x,y,w,w)
+        fill(0)
         if roll == 1 or roll == 0:
             circle(x+w/2,y+w/2,10)
         elif roll == 2:
@@ -76,8 +78,7 @@ class dice:
             circle(x+w/6,y+w/6,10)
             circle(x+ w - w/6,y+w-w/6,10)
             circle(x+w/6,y+w/2,10)
-            circle(x+w -w/6,y+w/2,10)    
-
+            circle(x+w -w/6,y+w/2,10)
 def setup():
     size(1080,720)
     
@@ -97,16 +98,20 @@ def draw():
     statBox(width-300,0,300,200)
     
     if start <= eind:
-        mainDice.showdobbel(start%7)
+        mainDice.showdobbel(random.randint(1,6))
         start += 1
     else:
-        mainDice.roll
-    mainDice.showdobbel(mainDice.roll)
+        mainDice.roll()
+        fill(0)
+        mainDice.showdobbel(mainDice.value)
 
     
 def drawCard(empire):
     pass
-    
+
+def rollProcess():
+    global start
+    start = 0
 def statBox(x,y,w,h):
     hollowRect(x,y,w,h)
     fill(0)
@@ -118,3 +123,6 @@ def statBox(x,y,w,h):
         text(players[i].curpos,x+w/2,y+(40*(i+1)))
         textAlign(LEFT)
         text(empDict[players[i].empire],x+w-w/3,y+(40*(i+1)))
+        
+def mousePressed():
+    rollProcess()
