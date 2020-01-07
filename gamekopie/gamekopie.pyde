@@ -22,14 +22,10 @@ def backSpace(s):
         s = "".join(s)
         return s
     
-def endName():
-    global slist
-    if len(slist) < players-1:
-        slist.append(s)
-        s = ""
+
 
 def setup():
-    fullScreen()
+    size(1080,720)
     global players
     global mainColor
     mainColor = color(234,222,191)

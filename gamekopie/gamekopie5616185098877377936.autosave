@@ -1,0 +1,351 @@
+import screen0,screen1, screen2, handleiding,functions,game
+import os
+
+box_selected = 0
+
+def hollowRect(x,y,w,h):
+    line(x,y,x+w,y)
+    line(x,y,x,y+h)
+    line(x,y+h,x+w,y+h)
+    line(x+w,y,x+w,y+h)
+
+intro = True
+game = False
+
+
+def backSpace(s):
+    try:
+        s = list(s)
+        del s[-1]
+    except:
+        return ""
+    else:
+        s = "".join(s)
+        return s
+    
+def endName():
+    global slist
+    if len(slist) < players-1:
+        slist.append(s)
+        s = ""
+
+def setup():
+    size(1080,720)
+    global players
+    global mainColor
+    mainColor = color(234,222,191)
+    global statBox
+    statBox = [width-width/6, 1, width/6-2, height/3+height/7]
+    
+    global standardFont
+    standardFont = createFont("Harrington",25)
+    
+    global phase
+    phase = 0
+    
+    #phase 0
+    global f, f1, f2
+    global scherm, maincolor
+    global schip, frame, handleiding1, handleiding2
+    schip = loadImage("schip.png")
+    frame = loadImage("frame.png")
+    handleiding1 = loadImage("handleiding1.png")
+    handleiding2 = loadImage("handleiding2.png")
+    maincolor = color(234,222,191)
+    f = createFont("Harrington",40)
+    f1 = createFont("Harrington",80)
+    f2 = createFont("Harrington",30)
+    scherm = 0
+    
+    global backCo
+    backX = width/7
+    backY = height-height/4
+    backW = 350
+    backH = 100
+    backCo = [backX,backY,backW,backH]
+    
+    global w,x,y,x2,y2,players
+    w = 90          
+    x = 860
+    y = 250
+    x2 = x+100
+    y2 = y+100
+    players = ""
+    
+    global backCo
+    backX = width/7
+    backY = height-height/4
+    backW = 250
+    backH = 50
+    backCo = [backX,backY,backW,backH]
+    
+    global contCo
+    contX = width/7
+    contY = height/4-height/20
+    contW = 350
+    contH = 100
+    contCo = [contX,contY,contW,contH]
+    
+    global guideCo
+    guideX = width/7
+    guideY = contY + contH + height/40
+    guideW = 350
+    guideH = 100
+    guideCo = [guideX,guideY,guideW,guideH]
+
+    global slist,s,shift
+    slist = []
+    s = ""
+    shift = False
+    
+    #coords1
+    ws1 = width/7          
+    xs1 = width/2-width/7-width/14
+    ys1 = height/3
+    x2s1 = width/2 + width/14
+    y2s1 = y + w + height/14
+    
+    global oneCo,twoCo,threeCo,fourCo
+    oneCo = [xs1,ys1,ws1,ws1]
+    twoCo = [x2s1,ys1,ws1,ws1]
+    threeCo = [xs1,y2s1,ws1,ws1]
+    fourCo = [x2s1,y2s1,ws1,ws1]
+    
+def name_input_screen():
+    global number_of_players, name_input_screen_display, show_empty_name_error
+    global player1_name, player2_name, player3_name, player4_name, player5_name, player6_name
+    
+    font1 = createFont("Courier", 30)    
+    font2 = createFont("Courier", 35)
+    
+    textFont(font1)
+    textAlign(CENTER)
+    fill(255,255,255)
+    text("Aantal spelers: " + str(players), screenWidth/2, 100)
+    
+    x = number_of_players
+    YPositionRect = 200
+    YPositionText = 232
+    y = player_number = 1
+    
+    while x > 0:        
+        fill(255,255,255)
+        rect(690, YPositionRect, 250, 40, 6)
+
+        text("Player "+ str(y)+": ", 610, YPositionText)
+        x -= 1
+        YPositionRect += 100
+        YPositionText += 100
+        y += 1
+        
+    if player1_box_selected == True:
+        fill(230, 230, 230)
+        rect(690, 200, 250, 40, 6)
+    elif player2_box_selected == True:
+        fill(230, 230, 230)
+        rect(690, 300, 250, 40, 6)
+    elif player3_box_selected == True:
+        fill(230, 230, 230)
+        rect(690, 400, 250, 40, 6)
+    elif player4_box_selected == True:
+        fill(230, 230, 230)
+        rect(690, 500, 250, 40, 6)
+    elif player5_box_selected == True:
+        fill(230, 230, 230)
+        rect(690, 600, 250, 40, 6)
+    elif player6_box_selected == True:
+        fill(230, 230, 230)
+        rect(690, 700, 250, 40, 6)
+    
+    font1 = createFont("Courier", 30)
+    textFont(font1)
+    fill(0, 0, 0)    
+    textAlign(LEFT)
+    text(player1_name, 700, 232)    
+    text(player2_name, 700, 332)    
+    text(player3_name, 700, 432)    
+    text(player4_name, 700, 532)    
+    text(player5_name, 700, 632)    
+        
+    textAlign(CENTER)
+    fill(255,255,255)
+    rect(720, 800, 60, 40, 6)    
+    fill(0,0,0)
+    text("OK", 750, 832)
+    
+    if show_empty_name_error == True:            
+        fill(155, 155, 155) 
+        rect(screenWidth/2 - 450, screenHeight/2 - 40, 900, 80, 6)
+        fill(255,255,255)
+        rect(screenWidth/2 + 360, screenHeight/2 - 20, 60, 40, 6)
+        textAlign(CENTER)
+        textFont(font2) 
+        fill(0,0,0)
+        text("Voer voor alle spelers een naam in!", screenWidth/2 - 40, screenHeight/2 + 10)
+        text("OK", screenWidth/2 + 390, screenHeight/2 + 10)
+        
+def draw():
+    background(mainColor)
+    fill(0)
+    textAlign(CENTER)
+    textFont(standardFont)
+    #main menu
+    if phase == 0:
+        global f, f1, f2
+        global scherm
+        background(maincolor)
+        
+        textFont(f2)
+        textAlign(CENTER)
+        if scherm == 0:
+            screen0.setup()
+            screen0.draw()
+        elif scherm == 1:
+            screen1.draw()
+        elif scherm == 2:
+            screen2.draw(players)
+        elif scherm == 100:
+            handleiding.setup()
+            handleiding.draw()
+        image(frame,0,0,width,height)
+    
+    #game
+    elif phase == 1:
+        #stat box
+        hollowRect(*statBox)
+        for i in range(1,players+1):
+            text("speler " + str(i) + ":",statBox[0]+statBox[2]/4,statBox[1]+statBox[3]/5+i*25)
+            
+def isMouseInSpace(x, y, w, h):
+    return(x < mouseX < x + w and y < mouseY < y + h)
+
+def mousePressed():
+    if phase == 0:
+        global scherm
+        global players
+        if scherm == 0: 
+            if isMouseInSpace(*contCo):
+                scherm = 1 
+                #naar spel
+            if isMouseInSpace(*guideCo):
+                scherm = 100
+                #naar handleiding
+            if isMouseInSpace(*backCo):
+                exit()
+                #verlaat spel
+        elif scherm == 1:
+            if isMouseInSpace(*backCo):
+                scherm = 0
+                #naar main menu
+            elif isMouseInSpace(*oneCo):
+                players = 1
+                scherm = 2
+            elif isMouseInSpace(*twoCo):
+                players = 2
+                scherm = 2
+            elif isMouseInSpace(*threeCo):
+                players = 3
+                scherm = 2
+            elif isMouseInSpace(*fourCo):
+                players = 4
+                scherm = 2    
+        elif scherm == 2:
+            if isMouseInSpace(*backCo):
+                scherm = 1
+                players = 0
+                #naar aantal spelers
+            else:
+                elif name_input_screen_display == True:
+        if show_empty_name_error == True:
+            if (mouseX >= screenWidth/2 + 360 and mouseX <= screenWidth/2 + 420) and (mouseY >= screenHeight/2 - 20 and mouseY <= screenHeight/2 + 20):
+                    show_empty_name_error = False
+        #Checks if the user has clicked on a certain textbox to begin input
+        else:
+            if (mouseX >= 690 and mouseX <= 940) and (mouseY >= 200 and mouseY <= 240):
+                player1_box_selected = True
+                player2_box_selected = False
+                player3_box_selected = False
+                player4_box_selected = False
+                player5_box_selected = False
+                player6_box_selected = False        
+            elif (mouseX >= 690 and mouseX <= 940) and (mouseY >= 300 and mouseY <= 340):
+                player1_box_selected = False
+                player2_box_selected = True
+                player3_box_selected = False
+                player4_box_selected = False
+                player5_box_selected = False
+                player6_box_selected = False            
+            elif (mouseX >= 690 and mouseX <= 940) and (mouseY >= 400 and mouseY <= 440):
+                player1_box_selected = False
+                player2_box_selected = False
+                player3_box_selected = True
+                player4_box_selected = False
+                player5_box_selected = False
+                player6_box_selected = False        
+            elif ((mouseX >= 690 and mouseX <= 940) and (mouseY >= 500 and mouseY <= 540)) and number_of_players > 3:
+                player1_box_selected = False
+                player2_box_selected = False
+                player3_box_selected = False
+                player4_box_selected = True
+                player5_box_selected = False
+                player6_box_selected = False        
+            elif ((mouseX >= 690 and mouseX <= 940) and (mouseY >= 600 and mouseY <= 640)) and number_of_players > 4:
+                player1_box_selected = False
+                player2_box_selected = False
+                player3_box_selected = False
+                player4_box_selected = False
+                player5_box_selected = True
+                player6_box_selected = False            
+            elif ((mouseX >= 690 and mouseX <= 940) and (mouseY >= 700 and mouseY <= 740)) and number_of_players > 5:
+                player1_box_selected = False
+                player2_box_selected = False
+                player3_box_selected = False
+                player4_box_selected = False
+                player5_box_selected = False
+                player6_box_selected = True
+                
+            #Detects wheter the OK button has been pressed
+            elif (mouseX >= 720 and mouseX <= 780) and (mouseY >= 800 and mouseY <= 840):        
+                if player1_name == '' or player2_name == '' or player3_name == '':
+                    show_empty_name_error = True
+                elif number_of_players > 3 and player4_name == '':
+                    show_empty_name_error = True
+                elif number_of_players > 4 and player5_name == '':
+                    show_empty_name_error = True
+                elif number_of_players > 5 and player6_name == '':
+                    show_empty_name_error = True                                
+                else:
+                    show_empty_name_error = False
+                    name_input_screen_display = False
+                    main_screen_display = True                        
+                    player1_box_selected = False
+                    player2_box_selected = False
+                    player3_box_selected = False
+                    player4_box_selected = False
+                    player5_box_selected = False
+                    player6_box_selected = False
+                    player_starting = int(random(0,number_of_players-1))
+        if scherm == 100:
+            if isMouseInSpace(backX,backY,backW,backH):
+                scherm = 0
+                #naar main menu
+def keyPressed():
+    if scherm == 2:
+        global s,shift
+        print(keyCode)
+        if keyCode == 13:
+            endName()
+        else:
+            if keyCode == 16:
+                shift = True
+            else:
+                shift = False
+                if len(s) < 12:
+                    if keyCode == 8:
+                        s = backSpace(s)
+                    else:
+                        if shift:
+                            s += str(key).upper()
+                        else:
+                            s += str(key)
+        screen2.keyPressed()
