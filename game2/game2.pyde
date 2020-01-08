@@ -109,11 +109,54 @@ def draw():
             mainDice.roll()
             curplayer.changePos(mainDice.value)
             p1 = False
+            if mainBoard.checkQuestion(curplayer.getPos()):
+                curEmp = functions.isInEmpire(curplayer.getPos())
+                dif = chooseDif(width/2-150,height/3,300,300)
+                drawQCard(curEmp,dif)
+            elif mainBoard.checkEvent(curplayer.getPos()):
+                drawECard
         start += 1
     else:
         fill(0)
         mainDice.showdobbel(mainDice.value)
-
+        
+        
+def chooseDif(x,y,w,h):
+    hollowRect(x,y,w,h)
+    fill(mainColor)
+    rect(x,y,w,h)
+    text("Kies moeilijkheid",x+w/2,y+h/4)
+    #colors
+    secondcolor = color(146,128,60)
+    c21 = secondcolor
+    c22 = color(109, 95, 44)
+    t21 = color(119,105,49)
+    t22 = color(81,71,36)
+    
+    wid2 = w/5    
+    x21 = x+w/3-wid2    
+    x22 = x+w/3*2
+    y21 = y+h/2
+    if mouseInSquare(x21,y21,wid2):
+        fill(t21)
+        if mousePressed():
+            return "easy"
+    else:
+        fill(c21)
+    square(x21,y21,wid2)
+    
+    fill(0)
+    text("Makkelijk",x21+wid2/2,y21+wid2/2)
+    if mouseInSquare(x22,y21,wid2):
+        fill(t22)
+        if mousePressed():
+            return "hard"
+    else:
+        fill(c22)
+    square(x22,y21,wid2)
+    fill(0)
+    text("Moeilijk",x22+wid2/2,y21+wid2/2)
+    
     
 def drawQCard(empire,diff):
     
@@ -185,3 +228,6 @@ def checkTurn():
 
 def checkName():
     return curplayer.name
+
+def mouseInSquare(x,y,w):
+    return (x < mouseX < x+w) and (y< mouseY < y+w)

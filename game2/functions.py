@@ -1,7 +1,7 @@
-otto = list(range(1,13))
-eng = list(range(41,53))
-spa = list(range(21, 33))
-nl = list(range(61,73))
+otto = list(range(1,14))
+eng = list(range(41,54))
+spa = list(range(21, 34))
+nl = list(range(61,74))
 neu1 = list(range(34, 40)) 
 neu2 = list(range(54, 60))
 neu3 = list(range(74, 80))
@@ -22,6 +22,8 @@ startPosDict = {
     "nl" : 67
 }
 
+emps = [otto,spa,eng,nl]
+
 ottoCard = [2, 4, 6, 9, 11, 13]
 engCard = [42, 44, 46, 49, 51, 53]
 spaCard = [22, 24, 26, 29, 31, 33]
@@ -35,7 +37,7 @@ allianceCard = [34,74]
 
 eventCard = [5, 10, 16, 19, 25, 30, 36, 39, 45, 50, 56, 59, 65, 70, 76]
 
-def belongsToEmpire(currentPosition):
+def isInEmpire(currentPosition):
 
     """ Checks if the new position of the player matches an empire
     If previous position is a new empire (condition: neutral, empire), 
@@ -203,8 +205,8 @@ class player:
         self.curpos += x
         if self.curpos > 80:
             self.curpos %= 80
-    def getPos():
-        return curpos
+    def getPos(self):
+        return self.curpos
     def startTurn(self):
         if self.hasturn == False:
             self.hasturn = True
@@ -225,7 +227,7 @@ class board:
         else:
             return False
     def checkEvent(self,x):
-        if x in ecards:
+        if x in self.ecards:
             return True
         else:
             return False
