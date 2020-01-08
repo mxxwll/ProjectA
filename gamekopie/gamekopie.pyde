@@ -26,7 +26,8 @@ def backSpace(s):
 
 def setup():
     size(1080,720)
-    global players
+    global players, playerNames
+    playerNames = []
     global mainColor
     mainColor = color(234,222,191)
     global statBox
@@ -112,6 +113,7 @@ def setup():
     fourCo = [x2s1,y2s1,ws1,ws1]
     
 def draw():
+    global playerNames, eersteSpeler
     background(mainColor)
     fill(0)
     textAlign(CENTER)
@@ -131,9 +133,12 @@ def draw():
         elif scherm == 1:
             screen1.draw()
         elif scherm == 2:
-            j = screen2.draw(players)
+            screen2.draw(players)
+            
+            
         elif scherm == 3:
-            screen3.draw(j)
+            playerNames = screen2.getPlayerNames()
+            screen3.draw(playerNames)
         elif scherm == 100:
             handleiding.setup()
             handleiding.draw()
@@ -150,6 +155,9 @@ def isMouseInSpace(x, y, w, h):
     return(x < mouseX < x + w and y < mouseY < y + h)
 
 def mousePressed():
+    global playerNames
+    playerNames = []
+    
     if phase == 0:
         global scherm
         global players
@@ -180,7 +188,7 @@ def mousePressed():
                 players = 4
                 scherm = 2    
         if scherm == 2:
-            screen2.mousePressed(players)
+            playerNames = screen2.mousePressed(players)
             if isMouseInSpace(*backCo):
                 scherm = 1
                 players = 0
@@ -191,6 +199,22 @@ def mousePressed():
             if isMouseInSpace(*backCo):
                 scherm = 0
                 #naar main menu
+        if scherm == 3:
+            if isMouseInSpace(*backCo):
+                scherm = 0
+                #naar main menu
+            elif isMouseInSpace(*oneCo):
+                players = 1
+                scherm = 2
+            elif isMouseInSpace(*twoCo):
+                players = 2
+                scherm = 2
+            elif isMouseInSpace(*threeCo):
+                players = 3
+                scherm = 2
+            elif isMouseInSpace(*fourCo):
+                players = 4
+                scherm = 2    
 def keyPressed():
     if scherm == 2:
         screen2.keyPressed()

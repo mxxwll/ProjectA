@@ -56,6 +56,8 @@ def endName():
 
 def draw(players):
     name_input_screen(players)
+    
+        
     """
     backX = width/7
     backY = height-height/4
@@ -95,6 +97,7 @@ def draw(players):
         self.players = amountOfPlayers
     
 """
+
 def name_input_screen(number_of_players):
     global name_input_screen_display, show_empty_name_error
     global player1_name, player2_name, player3_name, player4_name, player5_name, player6_name
@@ -186,18 +189,13 @@ def name_input_screen(number_of_players):
     #rect(720, 800, 60, 40, 6)   
      
     fill(0,0,0)
-    text("OK", 750, 600)
+    text("OK", 760, 620)
     
     player_names = [player1_name, player2_name, player3_name, player4_name]
     
     s2 = screen2()
     s2.setNames(player_names)
-    p = s2.getNames()
-    
-    print(p)
-    #s2 = screen2(player_names)
-    #sj = s2.getdy
-    #print(sj)
+   
         
     if show_empty_name_error == True:            
         fill(155, 155, 155) 
@@ -209,7 +207,11 @@ def name_input_screen(number_of_players):
         fill(0,0,0)
         text("Voer voor alle spelers een naam in!", screenWidth/2 - 40, screenHeight/2 + 10)
         text("OK", screenWidth/2 + 390, screenHeight/2 + 10)
-
+    
+    
+def getPlayerNames():
+    p = s2.getNames()
+    return p
         
         
 
@@ -300,6 +302,7 @@ def mousePressed(players):
                 player6_box_selected = False
                 player_starting = int(random(0,number_of_players-1))
                 player_names = [player1_name, player2_name, player3_name, player4_name]
+                return player_names
                 
             
 
@@ -307,7 +310,7 @@ def mousePressed(players):
 def keyPressed():
     global player1_name, player2_name, player3_name, player4_name, player5_name, player6_name
     global player1_box_selected, player2_box_selected, player3_box_selected
-    global player4_box_selected, player5_box_selected, player6_box_selected
+    global player4_box_ted, player6_box_selected
     
     #Checks if the key pressed is a letter and if so adds it to the player whose textbox is currently selected
     if (key == 'a' or key == 'A' 
