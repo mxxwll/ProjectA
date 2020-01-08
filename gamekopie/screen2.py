@@ -1,3 +1,4 @@
+
 slist = []
 s = ""
 y = 1
@@ -26,6 +27,16 @@ player6_name = ''
 player_names = []
 player_starting = 0
 
+class screen2():
+    def __init__(self):
+        self.playerNames = []
+        
+    def setNames(self, y):
+        self.playerNames = y
+    
+    def getNames(self):
+        return self.playerNames
+    
 def backSpace(s):
     try:
         s = list(s)
@@ -87,6 +98,8 @@ def draw(players):
 def name_input_screen(number_of_players):
     global name_input_screen_display, show_empty_name_error
     global player1_name, player2_name, player3_name, player4_name, player5_name, player6_name
+    global s2, p
+    
     
     
     backX = width/7
@@ -175,6 +188,17 @@ def name_input_screen(number_of_players):
     fill(0,0,0)
     text("OK", 750, 600)
     
+    player_names = [player1_name, player2_name, player3_name, player4_name]
+    
+    s2 = screen2()
+    s2.setNames(player_names)
+    p = s2.getNames()
+    
+    print(p)
+    #s2 = screen2(player_names)
+    #sj = s2.getdy
+    #print(sj)
+        
     if show_empty_name_error == True:            
         fill(155, 155, 155) 
         rect(screenWidth/2 - 450, screenHeight/2 - 40, 900, 80, 6)
@@ -186,8 +210,9 @@ def name_input_screen(number_of_players):
         text("Voer voor alle spelers een naam in!", screenWidth/2 - 40, screenHeight/2 + 10)
         text("OK", screenWidth/2 + 390, screenHeight/2 + 10)
 
-        player_names = [player1_name, player2_name, player3_name, player4_name]
         
+        
+
     
 def mousePressed(players):
     global number_of_players, name_input_screen_display, main_screen_display
@@ -201,6 +226,9 @@ def mousePressed(players):
     global isMouseWithinSpace, value, bgs, bgsVolume, begin_ok_button
     global show_empty_name_error
     number_of_players = players
+    global s2
+    
+    
     
     if show_empty_name_error == True:
         if (mouseX >= screenWidth/2 + 360 and mouseX <= screenWidth/2 + 420) and (mouseY >= screenHeight/2 - 20 and mouseY <= screenHeight/2 + 20):
@@ -272,7 +300,8 @@ def mousePressed(players):
                 player6_box_selected = False
                 player_starting = int(random(0,number_of_players-1))
                 player_names = [player1_name, player2_name, player3_name, player4_name]
-                return player_names
+                
+            
 
 
 def keyPressed():

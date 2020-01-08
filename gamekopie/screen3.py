@@ -1,4 +1,8 @@
+import screen2
+from screen2 import *
+
 def draw(playerNames):
+    
     f = createFont("Harrington",32)
     textFont(f,30) 
     w = width/7          
