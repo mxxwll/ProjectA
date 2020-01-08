@@ -199,6 +199,8 @@ class player:
         self.startpos = startPosDict[empire]
         self.curpos = self.startpos
         self.hasturn = False
+        self.flags = {"otto":False,"spa":False,"eng":False,"nl":False}
+        self.count = 0
         
     
     def changePos(self,x):
@@ -213,6 +215,9 @@ class player:
     def endTurn(self):
         if self.hasturn == True:
             self.hasturn = False
+    def addFlag(self,emp):
+        self.flags[emp] = True
+        self.count += 1
 
 class board:
     def __init__(self):
