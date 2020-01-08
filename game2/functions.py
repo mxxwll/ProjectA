@@ -27,6 +27,8 @@ engCard = [42, 44, 46, 49, 51, 53]
 spaCard = [22, 24, 26, 29, 31, 33]
 nlCard = [62, 64, 66, 69, 71, 73]
 
+qcards = [ottoCard,spaCard,engCard,nlCard]
+
 embargoCard = [1]
 boycotCard = [14, 54]
 allianceCard = [34,74]
@@ -199,6 +201,8 @@ class player:
     
     def changePos(self,x):
         self.curpos += x
+        if self.curpos > 80:
+            self.curpos %= 80
     def getPos():
         return curpos
     def startTurn(self):
@@ -208,6 +212,25 @@ class player:
         if self.hasturn == True:
             self.hasturn = False
 
+class board:
+    def __init__(self):
+        self.empires = rijken
+        self.startPosDict = startPosDict
+        self.qcards = qcards
+        self.ecards = eventCard
+    def checkQuestion(self,x):
+        for i in self.qcards:
+            if x in i:
+                return True
+        else:
+            return False
+    def checkEvent(self,x):
+        if x in ecards:
+            return True
+        else:
+            return False
+        
+        
 def main():
     amountOfPlayers = inputPlayer()
     assignEmpire(amountOfPlayers)

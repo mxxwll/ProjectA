@@ -2,9 +2,9 @@ import functions
 import random
 add_library('minim')
 test = Minim(this)
-
+p1 = False
 startb = False
-
+turn = 0
 
 playernames = ["Liam","Jaikishan","Ali","Tugkan"]
 p1 = functions.player(playernames[0],"otto")
@@ -26,7 +26,7 @@ roll4 = loadImage('vier')
 roll5 = loadImage('vijf')
 roll6 = loadImage('zes')
 
-
+mainBoard = functions.board()
 
 def hollowRect(x,y,w,h):
     line(x,y,x+w,y)
@@ -94,34 +94,49 @@ def setup():
     
 def draw():
     global curplayer
-    global mainDice,start
+    global mainDice,start,p1
     
     background(mainColor)
     textAlign(CENTER)
     
-    curplayername = checkTurn()
+    curplayer = checkTurn()
     
     statBox(width-300,0,300,300)
     
     if start <= eind:
         mainDice.showdobbel(random.randint(1,6))
-        if start == eind:
+        if start == eind and turn > 0:
             mainDice.roll()
-            rollProcess2()
+            curplayer.changePos(mainDice.value)
+            p1 = False
         start += 1
     else:
         fill(0)
         mainDice.showdobbel(mainDice.value)
 
     
-def drawCard(empire):
+def drawQCard(empire,diff):
+    
+    pass
+    
+def drawECard():
     pass
 
 def rollProcess1():
-    global start
+    global start,turn
     start = 0
-def rollProcess2():
-    curplayer.changePos(mainDice.value)
+    turn += 1
+    
+def changeTurn():
+    global players,curplayer
+    try:
+        players[(players.index(curplayer)+1)%len(players)].startTurn()
+        curplayer.endTurn()
+    except AttributeError:
+        pass
+
+
+    
     
 def statBox(x,y,w,h):
     hollowRect(x,y,w,h)
@@ -136,20 +151,30 @@ def statBox(x,y,w,h):
         text(empDict[lis[i].empire],x+w-w/3,y+(40*(i+1)))
     textAlign(LEFT)
     try:
-        text("Aan de beurt: "+curplayer.name,x+w/4,y+(40*6))
-    except:
+        text("Aan de beurt: "+curplayer.name,x+w/3,y+(40*6))
+    except AttributeError:
         text("Aan de beurt: ",x+w/4,y+(40*6))
+        
 def startFunc():
-    global startb
+    global startb,players
     startb = True
-    p1.startTurn()
+    players[0].startTurn()
 
-
+def hasName(s,player):
+    if player.name == s:
+        return True
+    else:
+        return False
 def mousePressed():
+    global p1
     if not startb:
         startFunc()
     else:
-        rollProcess1()
+        if p1:
+            rollProcess1()
+        else:
+            changeTurn()
+            p1 = True
 
 def checkTurn():
     global curplayer
@@ -157,3 +182,6 @@ def checkTurn():
         if i.hasturn:
             return i
     return None
+
+def checkName():
+    return curplayer.name
