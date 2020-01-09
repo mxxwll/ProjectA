@@ -136,7 +136,9 @@ def draw():
             screen2.draw(players)
         elif scherm == 3:
             playerNames = screen2.getPlayerNames()
-            screen3.draw(playerNames)
+            screen3.draw(players, playerNames)
+            if screen3.getAllTaken() == True:
+                scherm = 0
         elif scherm == 100:
             handleiding.setup()
             handleiding.draw()
@@ -206,8 +208,7 @@ def mousePressed():
             if isMouseInSpace(*newBackGo):
                 scherm = scherm - 1
                 #naar main menu
-
-                        
+            
             
 def keyPressed():
     if scherm == 2:

@@ -197,8 +197,16 @@ def name_input_screen(number_of_players):
     fill(0,0,0)
     text("OK", 760, 620)
     text("Terug",backCo[0]+backCo[2]/2,backCo[1]+backCo[3]*0.75)
-    
-    player_names = [player1_name, player2_name, player3_name, player4_name]
+    if number_of_players == 1:
+        player_names = [player1_name]
+    elif number_of_players > 1:
+        player_names = [player1_name, player2_name]
+    elif number_of_players > 2:
+        player_names = [player1_name, player2_name, player3_name]
+    elif number_of_players > 3:
+        player_names = [player1_name, player2_name, player3_name, player4_name]
+                    
+
     
     s2 = screen2()
     s2.setNames(player_names)
@@ -308,7 +316,15 @@ def mousePressed(players):
                 player5_box_selected = False
                 player6_box_selected = False
                 player_starting = int(random(0,number_of_players-1))
-                player_names = [player1_name, player2_name, player3_name, player4_name]
+                if number_of_players == 1:
+                    player_names = [player1_name]
+                elif number_of_players > 1:
+                    player_names = [player1_name, player2_name]
+                elif number_of_players > 2:
+                    player_names = [player1_name, player2_name, player3_name]
+                elif number_of_players > 3:
+                    player_names = [player1_name, player2_name, player3_name, player4_name]
+                    
                 return player_names
                 
             
