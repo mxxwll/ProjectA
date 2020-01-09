@@ -185,7 +185,10 @@ def empireToPlayer(empire):
         pass
     else:
         return "Doesn't belong to any player"
-
+class card:
+    def __init__(self,img,name):
+        self.img = img
+        self.name = name
 
 class player:
     def __init__(self,name,empire):
@@ -196,8 +199,18 @@ class player:
         self.hasturn = False
         self.flags = {"otto":False,"spa":False,"eng":False,"nl":False}
         self.count = 0
-        
+        self.inv = []
+        self.wait = 0
+        self.coins = 0
     
+    def changeCoins(self,x):
+        self.coins += x
+    def getCoins(self):
+        return self.coins
+    def addWait(self,x):
+        self.wait += x
+    def getWait(self):
+        return self.wait
     def changePos(self,x):
         self.curpos += x
         if self.curpos > 80:
@@ -214,6 +227,9 @@ class player:
         if self.flags[emp] != True:
             self.flags[emp] = True
             self.count += 1
+    def addCard(self,card):
+        if len(self.inv) < 3:
+            self.inv.append(card)
 
 class board:
     def __init__(self):
