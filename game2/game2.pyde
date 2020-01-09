@@ -11,7 +11,10 @@ startb = False
 main = True
 flash = False
 done = False
+finish = False
 
+
+rolled = False
 correct = None
 
 q = True
@@ -114,9 +117,10 @@ class dice:
 def setup():
     size(1080,720)
     
-    global mainDice,curplayer
-    mainDice = dice(width-width/5,height-height/3,200)
-    
+    global mainDice,curplayer,frame
+    mainDice = dice(width-350,height/2-100,200)
+    frame = loadImage("frame.png")
+
     curplayer = checkTurn()
     
     global start,eind
@@ -139,16 +143,23 @@ def setup():
     neutdict = txtToDict(loadStrings("vragen_neutraal.txt"))
     
 def draw():
-    global main,curEmp,flash,q,a
+    global main,curEmp,flash,q,a,rolled,finish
     global curplayer,difb,quest
     global mainDice,start,p1
     
     background(mainColor)
     textAlign(CENTER)
     textFont(standardfont)
+    image(frame,0,0,width,height)
     curplayer = checkTurn()
-    
-    statBox(width-400,50,350,250)
+    print(question,answer)
+    print(turn,q)
+
+    try:
+        curEmp = functions.isInEmpire(curplayer.getPos())
+    except AttributeError:
+        curEmp = None
+    statBox(width/10,height/6,width/2,height/1.75)
     if main:
         if start <= eind:
             mainDice.showdobbel(random.randint(1,6))
@@ -156,15 +167,20 @@ def draw():
                 mainDice.roll()
                 curplayer.changePos(mainDice.value)
                 p1 = False
-                if mainBoard.checkQuestion(curplayer.getPos()):
-                    curEmp = functions.isInEmpire(curplayer.getPos())
-                    difb = True
-                    main = False
-                    
-                elif mainBoard.checkEvent(curplayer.getPos()):
-                    drawECard
+                rolled = True
             start += 1
         else:
+            if rolled:
+                try:
+                    if mainBoard.checkQuestion(curplayer.getPos()):
+                        curEmp = functions.isInEmpire(curplayer.getPos())
+                        difb = True
+                        main = False
+                            
+                    elif mainBoard.checkEvent(curplayer.getPos()):
+                        drawECard
+                except AttributeError:
+                    print("not yet")
             fill(0)
             mainDice.showdobbel(mainDice.value)
     if difb:
@@ -173,10 +189,18 @@ def draw():
         flashProc(curEmp,dif)
         flash = False
         quest = True
-    elif quest:         
-        drawQCard(question,answer,width/2-350,height/4,700,height/2)    
+        
+    elif quest:    
+        drawQCard(width/2-350,height/4,700,height/2)    
+
     elif done:
         doneProc()
+    if checkWinner() != False:
+        winner = checkWinner()
+        finish = True
+    if finish:
+        winScreen(winner)
+        
             
 def mouseClicked():
     global c,q,a,difb,flash,dif
@@ -198,6 +222,7 @@ def chooseDif(x,y,w,h):
     hollowRect(x,y,w,h)
     fill(mainColor)
     rect(x,y,w,h)
+    image(frame,x,y,w,h)
     fill(0)
     text("Kies moeilijkheid",x+w/2,y+h/4)
     #colors
@@ -260,10 +285,10 @@ def flashProc(rijk,dif):
                 question,answer = random.choice(list(spmodict.items()))
             elif rijk == "otto":
                 question,answer = random.choice(list(otmodict.items()))
-    print(question,answer)
+    time.sleep(0.5)
 
 def doneProc():
-    global question,answer,correct,done,main
+    global question,answer,correct,done,main,rolled,q
     rijk = curEmp
     if rijk == "neut":
             del neutdict[question]
@@ -291,28 +316,33 @@ def doneProc():
         correct = None
     done = False
     main = True
+    rolled = False
+    q = True
+    question,answer = "",""
     
-def drawQCard(question,answer,x,y,w,h):
-    global quest,done,correct,q,a,c
+    
+def drawQCard(x,y,w,h):
+    global question,answer,quest,done,correct,q,a,c
 
     
     hollowRect(x,y,w,h)
     if curEmp == "otto":
-        fill(255,0,0)
+        fill(255,150,150)
     elif curEmp == "eng":
-        fill(0,255,0)
+        fill(150,255,150)
     elif curEmp == "nl":
         fill(150,150,255)
     elif curEmp == "spa":
-        fill(255,0,0)
+        fill(255,150,150)
     textAlign(CENTER)
     rect(x,y,w,h)
     fill(0)
+    image(frame,x,y,w,h)
     if q:
         textSize(30)
         text("Vraag:",x+w/2,y+h/6)
         textSize(30)
-        text(question,x,y+h/3,w,y+h/2+h/10)
+        text(question,x+w/8,y+h/3,w-w/4,y+h/2+h/10)
     elif a:
         textSize(30)
         text("Antwoord:",x+w/2,y+h/6)
@@ -372,18 +402,24 @@ def statBox(x,y,w,h):
     hollowRect(x,y,w,h)
     fill(0)
     textAlign(RIGHT)
+    fill(mainColor)
+    rect(x,y,w,h)
+    fill(0)
+    image(frame,x,y,w,h)
+    textSize(25)
     lis = sorted(players,key=lambda x:x.startpos,reverse=False)
     for i in range(len(lis)):
         textAlign(RIGHT)
-        text(lis[i].name + ":",x+w/4,y+(40*(i+1)))
+        text(lis[i].name + ":",x+w/4,y+(60*(i+1)))
         textAlign(LEFT)
-        text("positie: " + str(lis[i].curpos) + "vlaggen: " + str(lis[i].count) +"\n" + empDict[lis[i].empire],x+w/4+w/10,y+(40*(i+1)))
+        text("positie: " + str(lis[i].curpos) + ", vlaggen: " + str(lis[i].count),x+w/4+w/10,y+(60*(i+1)))
+        text(empDict[lis[i].empire],x+w/4+w/10,y+(60*(i+1.4)))
         
     textAlign(LEFT)
     try:
-        text("Aan de beurt: "+curplayer.name,x+w/3,y+(40*6))
+        text("Aan de beurt: "+curplayer.name,x+w/4,y+(70*5))
     except AttributeError:
-        text("Aan de beurt: ",x+w/4,y+(40*6))
+        text("Aan de beurt: ",x+w/4,y+(70*5))
         
 def startFunc():
     global startb,players
@@ -413,8 +449,16 @@ def checkTurn():
             return i
     return None
 
-def checkName():
-    return curplayer.name
+def winScreen(winner):
+    textSize(50)
+    text("Winner is:\n "+winner.name,width/2,height/2)
+    if mousePressed:
+        exit()
+def checkWinner():
+    for i in players:
+        if i.count == 4:
+            return i
+    return False
 
 def mouseInRect(x,y,w,h):
     return (x < mouseX < x+w) and (y< mouseY < y+h)

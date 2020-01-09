@@ -44,19 +44,14 @@ def isInEmpire(currentPosition):
     it should trigger a deduction of the balance (tol)"""
     try:
         if currentPosition in otto: 
-            print("Ottomanian Empire")
             return "otto"
         elif currentPosition in eng:
-            print("British Empire")
             return "eng"
         elif currentPosition in spa:
-            print("Spanish Empire")
             return "spa"
         elif currentPosition in nl:
-            print("Dutch Empire")
             return "nl"
         elif currentPosition in neu:
-            print("Neutral Zone")
             return "neu"
     except:
         print("Position is not found in the board game")
@@ -216,8 +211,9 @@ class player:
         if self.hasturn == True:
             self.hasturn = False
     def addFlag(self,emp):
-        self.flags[emp] = True
-        self.count += 1
+        if self.flags[emp] != True:
+            self.flags[emp] = True
+            self.count += 1
 
 class board:
     def __init__(self):
