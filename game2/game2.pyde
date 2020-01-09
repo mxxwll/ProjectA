@@ -2,8 +2,10 @@ import functions
 import random
 import time
 
+
 add_library('minim')
 test = Minim(this)
+#game vars
 p1 = False
 difb = False
 quest = False
@@ -65,6 +67,7 @@ players = [p1,p2,p3,p4]
 
 
 mainBoard = functions.board()
+#game vars
 
 def hollowRect(x,y,w,h):
     line(x,y,x+w,y)
@@ -182,18 +185,20 @@ def draw():
         textFont(standardfont)
         image(frame,0,0,width,height)
         curplayer = checkTurn()
+        
         print(question,answer)
         print(turn)
     
     
         try:
+            prevEmp = curEmp
             curEmp = functions.isInEmpire(curplayer.getPos())
         except AttributeError:
             curEmp = None
         statBox(width/10,height/6,width/2,height/1.75)
         if main:
             
-            if turn == 1:
+            if turn == 1 and rolled:
                 curEmp = functions.isInEmpire(curplayer.getPos())
                 noCard = True
                 chanceb = True
@@ -211,6 +216,11 @@ def draw():
             else:
                 if rolled:
                     try:
+                        if curEmp != prevEmp and curEmp != "neut":
+                            if curplayer.notol:
+                                curplayer.notol = False
+                            else:
+                                curplayer.enterEmp()
                         if mainBoard.checkQuestion(curplayer.getPos()):
                             curEmp = functions.isInEmpire(curplayer.getPos())
                             difb = True
@@ -457,7 +467,6 @@ def drawECard(x,y,w,h):
             main = True
         #diplo
         elif kaart == 1:
-            time.sleep(1)
             if mousePressed:    
                 chanceb = False
                 main = True
@@ -510,7 +519,7 @@ def drawECard(x,y,w,h):
         
             
 def secRout(x,y,w,h):
-    global choice,secrout,turn,main
+    global choice,secrout,turn,main,players,curplayer,curEmp
     if choice == None:
         fill(mainColor)
         rect(x,y,w,h)
@@ -542,27 +551,28 @@ def secRout(x,y,w,h):
         elif choice == True:
             choiceScreen = False
             if curEmp == "otto":
-                while curplayer.getPos() < 46:
+                while curplayer.getPos() != 46:
                     curplayer.changePos(1)
                     
             elif curEmp == "nl":
-                while curplayer.getPos() < 26:
+                while curplayer.getPos() != 26:
                     curplayer.changePos(1)
             elif curEmp == "eng":
-                while curplayer.getPos() < 6:
+                while curplayer.getPos() != 6:
                     curplayer.changePos(1)
             elif curEmp == "spa":
-                while curplayer.getPos() < 66:
+                while curplayer.getPos() != 66:
                     curplayer.changePos(1)
         curplayer.changeCoins(-2)
 
         
-    if mousePressed:    
-        secrout = False
-        chanceb = False
-        main = True
-        if turn == 1:
-            turn += 1
+        if mousePressed:    
+            secrout = False
+            chanceb = False
+            main = True
+            choice = None
+            if turn == 1:
+                turn += 1
     
 def rollProcess1():
     global start,turn

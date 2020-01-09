@@ -202,6 +202,7 @@ class player:
         self.inv = []
         self.wait = 0
         self.coins = 10
+        self.notol = False
     
     def changeCoins(self,x):
         self.coins += x
@@ -230,6 +231,11 @@ class player:
     def addCard(self,card):
         if len(self.inv) < 3:
             self.inv.append(card)
+    def enterEmp(self):
+        self.coins -= 1
+    def diplom(self):
+        self.notol = True
+        
 
 class board:
     def __init__(self):
