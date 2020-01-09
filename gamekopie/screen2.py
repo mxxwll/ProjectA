@@ -189,7 +189,7 @@ def name_input_screen(number_of_players):
     text(player2_name, 300, 332)    
     text(player3_name, 300, 432)    
     text(player4_name, 300, 532)    
-
+    print(number_of_players)
     textAlign(CENTER)
     fill(255,255,255)
     #rect(720, 800, 60, 40, 6)   
@@ -199,11 +199,11 @@ def name_input_screen(number_of_players):
     text("Terug",backCo[0]+backCo[2]/2,backCo[1]+backCo[3]*0.75)
     if number_of_players == 1:
         player_names = [player1_name]
-    elif number_of_players > 1:
+    elif number_of_players == 2:
         player_names = [player1_name, player2_name]
-    elif number_of_players > 2:
+    elif number_of_players == 3:
         player_names = [player1_name, player2_name, player3_name]
-    elif number_of_players > 3:
+    elif number_of_players == 4:
         player_names = [player1_name, player2_name, player3_name, player4_name]
                     
 
