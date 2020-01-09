@@ -22,8 +22,22 @@ def setup():
     threeCo = [x,y2,w,w]
     fourCo = [x2,y2,w,w]
     
+class screen3():
+    def __init__(self):
+        self.currentPlayer = 0
+        
+    def setCurrentPlayer(self, currentPlayer):
+        self.currentPlayer = currentPlayer
+    
+    def getCurrentPlayer(self):
+        return self.currentPlayer
+
+    
 def draw(playerNames):
-    eersteSpeler = str(playerNames[0])
+    global s3, currentSpeler, p
+    
+    s3 = screen3()
+    currentSpeler = s3.getCurrentPlayer()
     
     f = createFont("Harrington",32)
     textFont(f,30) 
@@ -52,7 +66,7 @@ def draw(playerNames):
     fill(0)   
     textFont(f)
     textSize(30)
-    text(str(eersteSpeler),width/2,height/8)
+    text(str(playerNames[currentSpeler]),width/2,height/8)
     text("Select your empire: ", width/2, height / 5)
     
     fill(255,0,0,63)
@@ -60,7 +74,7 @@ def draw(playerNames):
     rect(*twoCo)
     rect(*threeCo)
     rect(*fourCo)
-    
+
     text("Terug",backCo[0]+backCo[2]/2,backCo[1]+backCo[3]*0.75)
     
     fill(134,122,91,63)
@@ -76,19 +90,26 @@ def draw(playerNames):
     
     text("Terug",backCo[0]+backCo[2]/2,backCo[1]+backCo[3]*0.75)
     
+    s3 = screen3()
+    
 def isMouseInSpace(x, y, w, h):
     return(x < mouseX < x + w and y < mouseY < y + h)
 
 def getCoordinates():
     return backCo
 
+def getCurrentPlayer():
+    global s3
+    s3 = screen3()
+    p = s3.getCurrentPlayer()
+    return p
+
 def mousePressed(playerNames, players):
    
-        
     global posDict,flagDict
     flagDict = {}
     
-    
+    currentPlayer = getCurrentPlayer()
     w = width/7          
     x = width/2-width/7-width/14
     y = height/3.5
@@ -101,19 +122,22 @@ def mousePressed(playerNames, players):
     threeCo = [x,y2,w,w]
     fourCo = [x2,y2,w,w]
     
-    for i in range(1, players+1):
-        if isMouseInSpace(*oneCo):
-            flagDict[playerNames[i]] = "eng"
-            print (str(flagDict[playerNames[i]]))
-        elif isMouseInSpace(*twoCo):
-            flagDict[playerNames[i]] = "nl"
-            print (str(flagDict[playerNames[i]]))
-        elif isMouseInSpace(*threeCo):
-            flagDict[playerNames[i]] = "spa"
-            print (str(flagDict[playerNames[i]]))
-        elif isMouseInSpace(*fourCo):
-            flagDict[playerNames[i]] = "nl"
-            print (str(flagDict[playerNames[i]]))
+    if isMouseInSpace(*oneCo):
+        flagDict[playerNames[currentPlayer]] = "eng"
+        print(flagDict)
+        #s3.setCurrentPlayer(currentPlayer + 1)
+        #print(getCurrentPlayer())
+        
+    elif isMouseInSpace(*twoCo):
+        flagDict[playerNames[currentPlayer]] = "nl"
+        print(flagDict)
+        #print (str(flagDict[playerNames[currentPlayer]]))
+    elif isMouseInSpace(*threeCo):
+        flagDict[playerNames[currentPlayer]] = "spa"
+        print(flagDict)
+    elif isMouseInSpace(*fourCo):
+        flagDict[playerNames[currentPlayer]] = "otto"
+        print(flagDict)
         
 
     """
