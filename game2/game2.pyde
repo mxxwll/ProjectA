@@ -5,6 +5,8 @@ import time
 
 add_library('minim')
 test = Minim(this)
+#menu vars
+#menu vars
 #game vars
 p1 = False
 difb = False
@@ -19,7 +21,8 @@ choice = None
 choiceScreen = False
 noCard = True
 secrout = False
-
+cp = False
+acp = False
 game = True
 menu = False
 
@@ -30,6 +33,7 @@ q = True
 a = False
 c = False
 
+chosenplayer = None
 turn = 0
 curEmp = ""
 dif = ""
@@ -120,7 +124,68 @@ class dice:
             circle(x+ w - w/6,y+w-w/6,10)
             circle(x+w/6,y+w/2,10)
             circle(x+w -w/6,y+w/2,10)
+
+def flashProc(rijk,dif):
+    global question,answer
+    if rijk == "NEUT":
+            question,answer = random.choice(list(neutdict.items()))
+    else:
+        if dif == "easy":
+            if rijk == "eng":
+                question,answer = random.choice(list(britmadict.items()))
+            elif rijk == "nl":
+                question,answer = random.choice(list(nlmadict.items()))
+            elif rijk == "spa":
+                question,answer = random.choice(list(spmadict.items()))
+            elif rijk == "otto":
+                question,answer = random.choice(list(otmadict.items()))
+        elif dif == "hard":
+            if rijk == "eng":
+                question,answer = random.choice(list(britmodict.items()))
+            elif rijk == "nl":
+                question,answer = random.choice(list(nlmodict.items()))
+            elif rijk == "spa":
+                question,answer = random.choice(list(spmodict.items()))
+            elif rijk == "otto":
+                question,answer = random.choice(list(otmodict.items()))
+    time.sleep(0.5)
+
+def doneProc():
+    global question,answer,correct,done,main,rolled,q
+    rijk = curEmp
+    if rijk == "neut":
+            del neutdict[question]
+    else:
+        if dif == "easy":
+            if rijk == "en":
+                del britmadict[question]
+            elif rijk == "nl":
+                del nlmadict[question]
+            elif rijk == "spa":
+                del spmadict[question]
+            elif rijk == "ot":
+                del otmadict[question]
+        elif dif == "hard":
+            if rijk == "en":
+                del britmodict[question]
+            elif rijk == "nl":
+                del nlmodict[question]
+            elif rijk == "spa":
+                del spmodict[question]
+            elif rijk == "otto":
+                del otmodict[question]
+    if correct:
+        curplayer.addFlag(curEmp)
+        correct = None
+    done = False
+    main = True
+    rolled = False
+    q = True
+    question,answer = "",""
             
+                        
+                                    
+                                                            
 def setup():
     size(1080,720)
     #main menu setup
@@ -178,7 +243,8 @@ def draw():
     elif game:
         global main,curEmp,flash,q,a,rolled,finish,chanceb,noCard
         global curplayer,difb,quest,kaart,cardArr
-        global mainDice,start,p1,turn
+        global mainDice,start,p1,turn,cp,chosenplayer,acp
+        
         
         background(mainColor)
         textAlign(CENTER)
@@ -197,7 +263,9 @@ def draw():
             curEmp = None
         statBox(width/10,height/6,width/2,height/1.75)
         if main:
-            
+            textAlign(CENTER)
+            if not(rolled) or start <= eind:
+                text("klik om te rollen",width/2,height/8)
             if turn == 1 and rolled:
                 curEmp = functions.isInEmpire(curplayer.getPos())
                 noCard = True
@@ -244,7 +312,7 @@ def draw():
             quest = True
             
         elif quest:    
-            drawQCard(width/2-350,height/4,700,height/2)    
+            drawQCard(width/2-350,height/4,700,height/1.5)    
     
         elif done:
             doneProc()
@@ -252,6 +320,18 @@ def draw():
             drawECard(0,0,width,height)
         elif secrout:
             secRout(0,0,width,height)
+        elif cp:
+            choosePlayer(0,0,width,height)
+        elif acp:
+            #huur
+            if kaart == 5:
+                curplayer.changeCoins(-1)
+                chosenplayer.addWait(1)
+                acp = False
+                main = True
+                chosenplayer = None
+                if turn == 1:
+                    turn += 1
         if checkWinner() != False:
             winner = checkWinner()
             finish = True
@@ -319,68 +399,11 @@ def chooseDif(x,y,w,h):
     fill(0)
     text("Moeilijk",x22+wid2/2,y21+wid2/2)
     
-def flashProc(rijk,dif):
-    global question,answer
-    if rijk == "NEUT":
-            question,answer = random.choice(list(neutdict.items()))
-    else:
-        if dif == "easy":
-            if rijk == "eng":
-                question,answer = random.choice(list(britmadict.items()))
-            elif rijk == "nl":
-                question,answer = random.choice(list(nlmadict.items()))
-            elif rijk == "spa":
-                question,answer = random.choice(list(spmadict.items()))
-            elif rijk == "otto":
-                question,answer = random.choice(list(otmadict.items()))
-        elif dif == "hard":
-            if rijk == "eng":
-                question,answer = random.choice(list(britmodict.items()))
-            elif rijk == "nl":
-                question,answer = random.choice(list(nlmodict.items()))
-            elif rijk == "spa":
-                question,answer = random.choice(list(spmodict.items()))
-            elif rijk == "otto":
-                question,answer = random.choice(list(otmodict.items()))
-    time.sleep(0.5)
 
-def doneProc():
-    global question,answer,correct,done,main,rolled,q
-    rijk = curEmp
-    if rijk == "neut":
-            del neutdict[question]
-    else:
-        if dif == "easy":
-            if rijk == "en":
-                del britmadict[question]
-            elif rijk == "nl":
-                del nlmadict[question]
-            elif rijk == "spa":
-                del spmadict[question]
-            elif rijk == "ot":
-                del otmadict[question]
-        elif dif == "hard":
-            if rijk == "en":
-                del britmodict[question]
-            elif rijk == "nl":
-                del nlmodict[question]
-            elif rijk == "spa":
-                del spmodict[question]
-            elif rijk == "otto":
-                del otmodict[question]
-    if correct:
-        curplayer.addFlag(curEmp)
-        correct = None
-    done = False
-    main = True
-    rolled = False
-    q = True
-    question,answer = "",""
     
 
 def drawQCard(x,y,w,h):
     global question,answer,quest,done,correct,q,a,c
-
     
     hollowRect(x,y,w,h)
     if curEmp == "otto":
@@ -395,6 +418,7 @@ def drawQCard(x,y,w,h):
     rect(x,y,w,h)
     fill(0)
     image(frame,x,y,w,h)
+    text(curplayer.name,x+w-w/8,y+w/8)
     if q:
         textSize(30)
         text("Vraag:",x+w/2,y+h/6)
@@ -440,7 +464,7 @@ def drawECard(x,y,w,h):
     
     global ctf,diplo,embargo,gehrout,golf,huur,smeer,smok,verl,winst
     global players,curplayer,cardarr,choice,choiceScreen,kaart,noCard
-    global chanceb,main,secrout
+    global chanceb,main,secrout,cp
     fill(mainColor)
     rect(x,y,w,h)
     fill(0)
@@ -455,44 +479,51 @@ def drawECard(x,y,w,h):
     image(frame,x,y,w,h)
     textSize(30)
     text("Kanskaart",x+w/2,y+h/8)
+    kaart = 5
     image(cardarr[kaart],x+w/3,y+h/4,w/3,h/2)
     # cardarr = [ctf,diplo,embargo,gehrout,golf,huur,smeer,smok,verl,winst]
     #ctf
-    kaart = 3
     if mousePressed:
-        time.sleep(2)
+        #ctf
         if kaart == 0:
-            time.sleep(1)
-            chanceb = False
-            main = True
+            if mousePressed:
+                chanceb = False
+                main = True
         #diplo
         elif kaart == 1:
-            if mousePressed:    
+            curplayer.diplom()
+            if mousePressed: 
+                curplayer.addWait(1)
                 chanceb = False
                 main = True
         #embargo
         elif kaart == 2:
-            curplayer.addWait(1)
             if mousePressed:    
+                curplayer.addWait(1)
                 chanceb = False
                 main = True
         #gehrout
         elif kaart == 3:
             #keuze tussen brug gebruiken voor 2 goudstukken of niet
-            secrout = True
-            chanceb = False
+            if mousePressed:
+                secrout = True
+                chanceb = False
         #golf    
         elif kaart == 4:
-            curplayer.changePos(6)
             if mousePressed:
+                curplayer.changePos(6)
                 chanceb = False
                 main = True
             
         #huur
         elif kaart == 5:
             if mousePressed:
+
                 chanceb = False
-                main = True
+                cp = True
+                time.sleep(1)
+
+                
         #smeer
         elif kaart == 6:
            if mousePressed:
@@ -505,18 +536,38 @@ def drawECard(x,y,w,h):
                 main = True
         #verl
         elif kaart == 8:
-            curplayer.changeCoins(-1)
             if mousePressed:
+                curplayer.changeCoins(-1)
+
                 chanceb = False
                 main = True
         #winst
         elif kaart == 9:
-            curplayer.changeCoins(1)
             if mousePressed:
+                curplayer.changeCoins(1)
                 chanceb = False
                 main = True
             
-        
+def choosePlayer(x,y,w,h):
+    global chosenplayer,curplayer,players,cp,acp
+    lis = list(filter(lambda i : i != curplayer,players))
+    textAlign(CENTER)
+    image(frame,x,y,w,h)
+    fill(mainColor)
+    rect(x,y,w,h)
+    fill(0)
+    text("Kies speler:",w/2,h/8)
+    for i in range(len(lis)):
+        if mouseInRect(x+w/2-w/8,y+h/5*(i+1),w/4,h/8):
+            if mousePressed:
+                chosenplayer = players[i]
+                cp = False
+                acp = True
+        fill(255)
+        rect(x+w/2-w/8,y+h/5*(i+1),w/4,h/8)
+        fill(0)
+        text(lis[i].name,x+w/2,y+h/5*(i+1)+h/16)
+                    
             
 def secRout(x,y,w,h):
     global choice,secrout,turn,main,players,curplayer,curEmp
