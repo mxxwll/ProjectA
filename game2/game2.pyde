@@ -12,7 +12,14 @@ main = True
 flash = False
 done = False
 finish = False
+chanceb = False
+choice = None
+choiceScreen = False
+noCard = True
 
+
+game = True
+menu = False
 
 rolled = False
 correct = None
@@ -24,7 +31,7 @@ c = False
 turn = 0
 curEmp = ""
 dif = ""
-
+kaart = ""
 
 question = ""
 answer = ""
@@ -36,6 +43,8 @@ p3 = functions.player(playernames[2],"spa")
 p4 = functions.player(playernames[3],"eng")
 
 empDict = {"otto":"Ottomaanse Rijk","nl":"Nederlandse Rijk","spa":"Spaanse Rijk","eng":"Engelse Rijk"}
+
+
 
 mainColor = color(234,222,191)
 
@@ -53,12 +62,7 @@ def txtToDict(ldstrings):
 
 players = [p1,p2,p3,p4]
 
-roll1 = loadImage('een')
-roll2 = loadImage('twee')
-roll3 = loadImage('drie')
-roll4 = loadImage('vier')
-roll5 = loadImage('vijf')
-roll6 = loadImage('zes')
+
 
 mainBoard = functions.board()
 
@@ -116,12 +120,33 @@ class dice:
             
 def setup():
     size(1080,720)
-    
+    #main menu setup
+    #main menu setup
+    #game setup
     global mainDice,curplayer,frame
     mainDice = dice(width-350,height/2-100,200)
     frame = loadImage("frame.png")
 
     curplayer = checkTurn()
+    
+    global cardarr
+    global ctf,diplo,embargo,gehrout,golf,huur,smeer,smok,verl,winst
+    
+    ctf = loadImage("Capture the flag.png")
+    diplo = loadImage("diplomaat.png")
+    embargo = loadImage("embargo.png")
+    gehrout = loadImage("Geheime route.png")
+    golf = loadImage("golfstroom.png")
+    huur = loadImage("huurling.png")
+    smeer = loadImage("smeergeld.png")
+    smok = loadImage("smokkelaar.jpg")
+    verl = loadImage("verlies.png")
+    winst = loadImage("winst.png")
+    
+    cardarr = [ctf,diplo,embargo,gehrout,golf,huur,smeer,smok,verl,winst]
+    
+    
+    
     
     global start,eind
     eind = 50
@@ -141,67 +166,81 @@ def setup():
     spmadict = txtToDict(loadStrings("vragen_sp_makkelijk.txt"))
     spmodict = txtToDict(loadStrings("vragen_sp_moeilijk.txt"))    
     neutdict = txtToDict(loadStrings("vragen_neutraal.txt"))
+    #game setup
     
 def draw():
-    global main,curEmp,flash,q,a,rolled,finish
-    global curplayer,difb,quest
-    global mainDice,start,p1
+    if menu:
+        pass
+    #actual game
+    elif game:
+        global main,curEmp,flash,q,a,rolled,finish,chanceb,noCard
+        global curplayer,difb,quest,kaart,cardArr
+        global mainDice,start,p1
+        
+        background(mainColor)
+        textAlign(CENTER)
+        textFont(standardfont)
+        image(frame,0,0,width,height)
+        curplayer = checkTurn()
+        print(question,answer)
+        print(turn,q)
     
-    background(mainColor)
-    textAlign(CENTER)
-    textFont(standardfont)
-    image(frame,0,0,width,height)
-    curplayer = checkTurn()
-    print(question,answer)
-    print(turn,q)
+        try:
+            curEmp = functions.isInEmpire(curplayer.getPos())
+        except AttributeError:
+            curEmp = None
+        statBox(width/10,height/6,width/2,height/1.75)
+        if main:
+            if turn == 1:
+                noCard = True
+                chanceb = True
+                main = False
+            if start <= eind:
+                mainDice.showdobbel(random.randint(1,6))
+                if start == eind and turn > 0:
+                    mainDice.roll()
+                    curplayer.changePos(mainDice.value)
+                    p1 = False
+                    rolled = True
+                start += 1
+            else:
+                if rolled:
+                    try:
+                        if mainBoard.checkQuestion(curplayer.getPos()):
+                            curEmp = functions.isInEmpire(curplayer.getPos())
+                            difb = True
+                            main = False
+                                
+                        elif mainBoard.checkEvent(curplayer.getPos()):
+                            noCard = True
+                            chanceb = True
+                            main = False
 
-    try:
-        curEmp = functions.isInEmpire(curplayer.getPos())
-    except AttributeError:
-        curEmp = None
-    statBox(width/10,height/6,width/2,height/1.75)
-    if main:
-        if start <= eind:
-            mainDice.showdobbel(random.randint(1,6))
-            if start == eind and turn > 0:
-                mainDice.roll()
-                curplayer.changePos(mainDice.value)
-                p1 = False
-                rolled = True
-            start += 1
-        else:
-            if rolled:
-                try:
-                    if mainBoard.checkQuestion(curplayer.getPos()):
-                        curEmp = functions.isInEmpire(curplayer.getPos())
-                        difb = True
-                        main = False
-                            
-                    elif mainBoard.checkEvent(curplayer.getPos()):
-                        drawECard
-                except AttributeError:
-                    print("not yet")
-            fill(0)
-            mainDice.showdobbel(mainDice.value)
-    if difb:
-        chooseDif(width/2-350,height/4,700,height/2)
-    elif flash:
-        flashProc(curEmp,dif)
-        flash = False
-        quest = True
-        
-    elif quest:    
-        drawQCard(width/2-350,height/4,700,height/2)    
-
-    elif done:
-        doneProc()
-    if checkWinner() != False:
-        winner = checkWinner()
-        finish = True
-    if finish:
-        winScreen(winner)
-        
+                    except AttributeError:
+                        print("not yet")
+                fill(0)
+                mainDice.showdobbel(mainDice.value)
+        if difb:
+            chooseDif(width/2-350,height/4,700,height/2)
+        elif flash:
+            flashProc(curEmp,dif)
+            flash = False
+            quest = True
             
+        elif quest:    
+            drawQCard(width/2-350,height/4,700,height/2)    
+    
+        elif done:
+            doneProc()
+        if chanceb:
+            drawECard(0,0,width,height)
+        if checkWinner() != False:
+            winner = checkWinner()
+            finish = True
+        if finish:
+            winScreen(winner)
+        
+        print(kaart)
 def mouseClicked():
     global c,q,a,difb,flash,dif
     if quest:
@@ -320,7 +359,7 @@ def doneProc():
     q = True
     question,answer = "",""
     
-    
+
 def drawQCard(x,y,w,h):
     global question,answer,quest,done,correct,q,a,c
 
@@ -376,12 +415,109 @@ def drawQCard(x,y,w,h):
             fill(255,0,0)
         square(x+w/3*2-widcheck/2,y+h/2,widcheck)
         fill(0)
-        text("Slecht",x+w/3*2,y+h/2+widcheck/2)
+        text("Fout",x+w/3*2,y+h/2+widcheck/2)
         
-    
-def drawECard(x,y,w):
-    pass
 
+def drawECard(x,y,w,h):
+    
+    global ctf,diplo,embargo,gehrout,golf,huur,smeer,smok,verl,winst
+    global players,curplayer,cardarr,choice,choiceScreen,kaart,noCard
+    fill(mainColor)
+    rect(x,y,w,h)
+    fill(0)
+    if noCard:
+        kaart = random.randint(0,len(cardarr)-1)
+        choice = None
+        choiceScreen = False
+        noCard = False
+    
+    hollowRect(x,y,w,h)
+    textAlign(CENTER)
+    image(frame,x,y,w,h)
+    textSize(30)
+    text("Kanskaart",x+w/2,y+w/7)
+    image(cardarr[kaart],x+w/3,y+h/4,w/3,h/2)
+    time.sleep(3)
+    # cardarr = [ctf,diplo,embargo,gehrout,golf,huur,smeer,smok,verl,winst]
+    #ctf
+    if kaart == 0:
+        pass
+    #diplo
+    elif kaart == 1:
+        pass
+    #embargo
+    elif kaart == 2:
+        curplayer.addWait(1)
+    #gehrout
+    elif kaart == 3:
+        
+        #keuze tussen brug gebruiken voor 2 goudstukken of niet
+        if choice == None:
+            time.sleep(3)
+            choiceScreen = True
+        else:
+            if choice == False:
+                choiceScreen = False
+                pass
+            elif choice == True:
+                choiceScreen = False
+                if curEmp == "otto":
+                    while curplayer.getPos() < 46:
+                        curplayer.changePos(1)
+                elif curEmp == "nl":
+                    while curplayer.getPos() < 26:
+                        curplayer.changePos(1)
+                elif curEmp == "eng":
+                    while curplayer.getPos() < 6:
+                        curplayer.changePos(1)
+                elif curEmp == "spa":
+                    while curplayer.getPos() < 66:
+                        curplayer.changePos(1)
+    #golf    
+    elif kaart == 4:
+        curplayer.changePos(6)
+    #huur
+    elif kaart == 5:
+        pass
+    #smeer
+    elif kaart == 6:
+        pass
+    #smok
+    elif kaart == 7:
+        pass
+    #verl
+    elif kaart == 8:
+        curplayer.changeCoins(-1)
+    #winst
+    elif kaart == 9:
+        curplayer.changeCoins(1)
+        
+    if choiceScreen:
+        fill(mainColor)
+        rect(x,y,w,h)
+        textAlign(CENTER)
+        textSize(20)
+        if mouseInSquare(x+w/8,y+h/2,w/4):
+            fill(100,255,100)
+            if mousePressed:
+                choice = True
+        else:
+            fill(0,255,0)
+        square(x+w/8,y+h/2,w/4)
+        fill(0)
+        text("Ja",x+w/2,y+h/6)
+        
+        if mouseInSquare(x+w-w/4-w/8,y+h/2,w/4):
+            fill(255,100,100)
+            if mousePressed:
+                choice = False
+        else:
+            fill(100,0,0)
+        square(x+w-w/4-w/8,y+h/2,w/4)
+        fill(0)
+        text("Nee",x+w/2,y+h/6)
+    
+    
 def rollProcess1():
     global start,turn
     start = 0
@@ -389,11 +525,13 @@ def rollProcess1():
     
 def changeTurn():
     global players,curplayer
+    
     try:
         players[(players.index(curplayer)+1)%len(players)].startTurn()
         curplayer.endTurn()
     except AttributeError:
         pass
+
 
 
     
@@ -435,11 +573,13 @@ def mousePressed():
     global p1
     if not startb:
         startFunc()
-    elif not(difb or quest or done):
+    elif main:
         if p1:
             rollProcess1()
         else:
             changeTurn()
+            while curplayer.getWait() > 0:
+                changeTurn()
             p1 = True
 
 def checkTurn():
