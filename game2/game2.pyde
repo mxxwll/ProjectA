@@ -16,7 +16,7 @@ chanceb = False
 choice = None
 choiceScreen = False
 noCard = True
-
+secrout = False
 
 game = True
 menu = False
@@ -175,7 +175,7 @@ def draw():
     elif game:
         global main,curEmp,flash,q,a,rolled,finish,chanceb,noCard
         global curplayer,difb,quest,kaart,cardArr
-        global mainDice,start,p1
+        global mainDice,start,p1,turn
         
         background(mainColor)
         textAlign(CENTER)
@@ -183,7 +183,8 @@ def draw():
         image(frame,0,0,width,height)
         curplayer = checkTurn()
         print(question,answer)
-        print(turn,q)
+        print(turn)
+    
     
         try:
             curEmp = functions.isInEmpire(curplayer.getPos())
@@ -191,10 +192,13 @@ def draw():
             curEmp = None
         statBox(width/10,height/6,width/2,height/1.75)
         if main:
+            
             if turn == 1:
+                curEmp = functions.isInEmpire(curplayer.getPos())
                 noCard = True
                 chanceb = True
                 main = False
+                
             if start <= eind:
                 mainDice.showdobbel(random.randint(1,6))
                 if start == eind and turn > 0:
@@ -202,6 +206,7 @@ def draw():
                     curplayer.changePos(mainDice.value)
                     p1 = False
                     rolled = True
+        
                 start += 1
             else:
                 if rolled:
@@ -212,6 +217,7 @@ def draw():
                             main = False
                                 
                         elif mainBoard.checkEvent(curplayer.getPos()):
+                            curEmp = functions.isInEmpire(curplayer.getPos())
                             noCard = True
                             chanceb = True
                             main = False
@@ -234,6 +240,8 @@ def draw():
             doneProc()
         if chanceb:
             drawECard(0,0,width,height)
+        elif secrout:
+            secRout(0,0,width,height)
         if checkWinner() != False:
             winner = checkWinner()
             finish = True
@@ -422,7 +430,7 @@ def drawECard(x,y,w,h):
     
     global ctf,diplo,embargo,gehrout,golf,huur,smeer,smok,verl,winst
     global players,curplayer,cardarr,choice,choiceScreen,kaart,noCard
-    global chanceb,main
+    global chanceb,main,secrout
     fill(mainColor)
     rect(x,y,w,h)
     fill(0)
@@ -438,12 +446,11 @@ def drawECard(x,y,w,h):
     textSize(30)
     text("Kanskaart",x+w/2,y+h/8)
     image(cardarr[kaart],x+w/3,y+h/4,w/3,h/2)
-    time.sleep(3)
     # cardarr = [ctf,diplo,embargo,gehrout,golf,huur,smeer,smok,verl,winst]
     #ctf
     kaart = 3
     if mousePressed:
-
+        time.sleep(2)
         if kaart == 0:
             time.sleep(1)
             chanceb = False
@@ -463,54 +470,8 @@ def drawECard(x,y,w,h):
         #gehrout
         elif kaart == 3:
             #keuze tussen brug gebruiken voor 2 goudstukken of niet
-            if choice == None:
-                fill(mainColor)
-                rect(x,y,w,h)
-                textAlign(CENTER)
-                textSize(20)
-                
-                if mouseInSquare(x+w/8,y+h/2,w/4):
-                    fill(0,150,0)
-                    if mousePressed:
-                        choice = True
-                else:
-                    fill(0,255,0)
-                square(x+w/8,y+h/2,w/4)
-                fill(0)
-                text("Ja",x+w/4,y+h/2+w/8)
-                
-                if mouseInSquare(x+w-w/4-w/8,y+h/2,w/4):
-                    fill(150,0,0)
-                    if mousePressed:
-                        choice = False
-                else:
-                    fill(100,0,0)
-                square(x+w-w/4-w/8,y+h/2,w/4)
-                fill(0)
-                text("Nee",x+w-w/4,y+h/2+w/8)
-            else:
-                if choice == False:
-                    print("g")
-                elif choice == True:
-                    choiceScreen = False
-                    if curEmp == "otto":
-                        while curplayer.getPos() < 46:
-                            curplayer.changePos(1)
-                            
-                    elif curEmp == "nl":
-                        while curplayer.getPos() < 26:
-                            curplayer.changePos(1)
-                    elif curEmp == "eng":
-                        while curplayer.getPos() < 6:
-                            curplayer.changePos(1)
-                    elif curEmp == "spa":
-                        while curplayer.getPos() < 66:
-                            curplayer.changePos(1)
-                
-                if mousePressed:    
-                    curplayer.changeCoins(-2)
-                    chanceb = False
-                    main = True
+            secrout = True
+            chanceb = False
         #golf    
         elif kaart == 4:
             curplayer.changePos(6)
@@ -520,9 +481,9 @@ def drawECard(x,y,w,h):
             
         #huur
         elif kaart == 5:
-            time.sleep(1)
-            chanceb = False
-            main = True
+            if mousePressed:
+                chanceb = False
+                main = True
         #smeer
         elif kaart == 6:
            if mousePressed:
@@ -548,7 +509,60 @@ def drawECard(x,y,w,h):
             
         
             
-    
+def secRout(x,y,w,h):
+    global choice,secrout,turn,main
+    if choice == None:
+        fill(mainColor)
+        rect(x,y,w,h)
+        textAlign(CENTER)
+        textSize(20)
+        
+        if mouseInSquare(x+w/8,y+h/2,w/4):
+            fill(0,150,0)
+            if mousePressed:
+                choice = True
+        else:
+            fill(0,255,0)
+        square(x+w/8,y+h/2,w/4)
+        fill(0)
+        text("Ja",x+w/4,y+h/2+w/8)
+        
+        if mouseInSquare(x+w-w/4-w/8,y+h/2,w/4):
+            fill(150,0,0)
+            if mousePressed:
+                choice = False
+        else:
+            fill(255,0,0)
+        square(x+w-w/4-w/8,y+h/2,w/4)
+        fill(0)
+        text("Nee",x+w-w/4,y+h/2+w/8)
+    else:
+        if choice == False:
+            print("g")
+        elif choice == True:
+            choiceScreen = False
+            if curEmp == "otto":
+                while curplayer.getPos() < 46:
+                    curplayer.changePos(1)
+                    
+            elif curEmp == "nl":
+                while curplayer.getPos() < 26:
+                    curplayer.changePos(1)
+            elif curEmp == "eng":
+                while curplayer.getPos() < 6:
+                    curplayer.changePos(1)
+            elif curEmp == "spa":
+                while curplayer.getPos() < 66:
+                    curplayer.changePos(1)
+        curplayer.changeCoins(-2)
+
+        
+    if mousePressed:    
+        secrout = False
+        chanceb = False
+        main = True
+        if turn == 1:
+            turn += 1
     
 def rollProcess1():
     global start,turn
@@ -606,7 +620,7 @@ def mousePressed():
     if not startb:
         startFunc()
     elif main:
-        if p1:
+        if p1 and start >= eind:
             rollProcess1()
         else:
             changeTurn()
