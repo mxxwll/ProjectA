@@ -198,7 +198,13 @@ def mousePressed():
                 scherm = 3
                 #naar aantal spelers
         if scherm == 100:
-            if isMouseInSpace(*backCo):
+            global backW,backH,backX,backY
+            backX = width/6
+            backY = height-height/6
+            backW = 150
+            backH = 40
+            backCoHand = [backX, backY, backW, backH]
+            if isMouseInSpace(*backCoHand):
                 scherm = 0
                 #naar main menu
         if scherm == 3:
