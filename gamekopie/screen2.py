@@ -6,6 +6,12 @@ shift = False
 screenWidth = 1500
 screenHeight = 800
 
+backX = screenWidth/7
+backY = screenHeight-screenHeight/4 
+backW = 350
+backH = 100
+backCo = [backX,backY,backW,backH]
+    
 begin_ok_button = False
 show_manual_display = False
 show_empty_name_error = False
@@ -190,6 +196,7 @@ def name_input_screen(number_of_players):
      
     fill(0,0,0)
     text("OK", 760, 620)
+    text("Terug",backCo[0]+backCo[2]/2,backCo[1]+backCo[3]*0.75)
     
     player_names = [player1_name, player2_name, player3_name, player4_name]
     

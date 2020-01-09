@@ -150,7 +150,7 @@ def assignEmpire(player_count):
     global posDict,flagDict
     for i in range(player_count):
         global rijken,flagDict
-        empirePlayer = input(playerNames[i] + " , which Empire would you like to take: " + str(rijken) + "\n")
+        #empirePlayer = input(playerNames[i] + " , which Empire would you like to take: " + str(rijken) + "\n")
         if empirePlayer == "otto":
             flagDict[playerNames[i]] = "otto"
             rijken.remove("otto")

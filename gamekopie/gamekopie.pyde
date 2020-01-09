@@ -134,8 +134,6 @@ def draw():
             screen1.draw()
         elif scherm == 2:
             screen2.draw(players)
-            
-            
         elif scherm == 3:
             playerNames = screen2.getPlayerNames()
             screen3.draw(playerNames)
@@ -155,7 +153,9 @@ def isMouseInSpace(x, y, w, h):
     return(x < mouseX < x + w and y < mouseY < y + h)
 
 def mousePressed():
-    global playerNames
+    global playerNames, empirePlayer
+    global posDict,flagDict
+    flagDict = {}
     playerNames = []
     
     if phase == 0:
@@ -200,21 +200,15 @@ def mousePressed():
                 scherm = 0
                 #naar main menu
         if scherm == 3:
-            if isMouseInSpace(*backCo):
-                scherm = 0
+            playerNames = screen2.getPlayerNames()
+            screen3.mousePressed(playerNames, players)
+            newBackGo = screen3.getCoordinates()
+            if isMouseInSpace(*newBackGo):
+                scherm = scherm - 1
                 #naar main menu
-            elif isMouseInSpace(*oneCo):
-                players = 1
-                scherm = 2
-            elif isMouseInSpace(*twoCo):
-                players = 2
-                scherm = 2
-            elif isMouseInSpace(*threeCo):
-                players = 3
-                scherm = 2
-            elif isMouseInSpace(*fourCo):
-                players = 4
-                scherm = 2    
+
+                        
+            
 def keyPressed():
     if scherm == 2:
         screen2.keyPressed()
