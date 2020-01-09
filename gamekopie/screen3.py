@@ -20,9 +20,9 @@ s3 = screen3()
 global allTaken
 allTaken = False
 
-global flagDict
+global flagDict,flags
 flagDict = {}
-
+flags = ["otto","nl","eng","spa"]
 global allPlayersChosen
 allPlayersChosen = False
 
@@ -45,20 +45,20 @@ def setup():
     backCo = [backX,backY,backW,backH]
     
     #1player
-    oneCo = [x,y,w,w]
-    twoCo = [x2,y,w,w]
-    threeCo = [x,y2,w,w]
-    fourCo = [x2,y2,w,w]
+    engCo = [x,y,w,w]
+    nlCo = [x2,y,w,w]
+    spaCo = [x,y2,w,w]
+    ottoCo = [x2,y2,w,w]
     
 
 
     
 def draw(players, playerNames):
-    
-    currentSpeler = getCurrentPlayer()
+    global flagDict,flags
+    currentSpeler = s3.getCurrentPlayer()
     if currentSpeler == len(playerNames):
         setAllTaken()
-        
+    print(playerNames)    
     mainColor = color(234,222,191)
     background(mainColor)
     global s3, p
@@ -82,10 +82,10 @@ def draw(players, playerNames):
     backCo = [backX,backY,backW,backH]
     
     #1player
-    oneCo = [x,y,w,w]
-    twoCo = [x2,y,w,w]
-    threeCo = [x,y2,w,w]
-    fourCo = [x2,y2,w,w]
+    engCo = [x,y,w,w]
+    nlCo = [x2,y,w,w]
+    spaCo = [x,y2,w,w]
+    ottoCo = [x2,y2,w,w]
     
     players = ""
     amountPlayers = False
@@ -94,71 +94,88 @@ def draw(players, playerNames):
     textSize(30)
     
     
-    
-    text(str(playerNames[currentSpeler]),width/2,height/8)
+    try:
+        text(str(playerNames[currentSpeler]),width/2,height/8)
+    except IndexError:
+        print(flagDict)
+        exit()
     text("Select your empire: ", width/2, height / 5)
         
     text("Terug",backCo[0]+backCo[2]/2,backCo[1]+backCo[3]*0.75)
         
     fill(134,122,91,63)
     rect(*backCo)
+    fill(255,0,0,63)
+    if "eng" in flags:
+        rect(*engCo)
+        text("ENG",engCo[0]+engCo[2]/2,engCo[1]+engCo[3]/2)
+    if "nl" in flags:
+        rect(*nlCo)
+        text("VOC",nlCo[0]+nlCo[2]/2,nlCo[1]+nlCo[3]/2)
+    if "spa" in flags:
+        rect(*spaCo)
+        text("SPA",spaCo[0]+spaCo[2]/2,spaCo[1]+spaCo[3]/2)
+    if "otto" in flags:
+        rect(*ottoCo)
+
+        text("OTTO",ottoCo[0]+ottoCo[2]/2,ottoCo[1]+ottoCo[3]/2)  
     
-        
+    '''
     if 'eng' or 'nl' or 'spa' or 'otto' not in flagDict.keys():
             
         fill(255,0,0,63)
-        rect(*oneCo)
-        rect(*twoCo)
-        rect(*threeCo)
-        rect(*fourCo)
+        rect(*engCo)
+        rect(*nlCo)
+        rect(*spaCo)
+        rect(*ottoCo)
         fill(0)
-        text("ENG",oneCo[0]+oneCo[2]/2,oneCo[1]+oneCo[3]/2)
-        text("VOC",twoCo[0]+twoCo[2]/2,twoCo[1]+twoCo[3]/2)
-        text("SPA",threeCo[0]+threeCo[2]/2,threeCo[1]+threeCo[3]/2)
-        text("OTTO",fourCo[0]+fourCo[2]/2,fourCo[1]+fourCo[3]/2)  
+        text("ENG",engCo[0]+engCo[2]/2,engCo[1]+engCo[3]/2)
+        text("VOC",nlCo[0]+nlCo[2]/2,nlCo[1]+nlCo[3]/2)
+        text("SPA",spaCo[0]+spaCo[2]/2,spaCo[1]+spaCo[3]/2)
+        text("OTTO",ottoCo[0]+ottoCo[2]/2,ottoCo[1]+ottoCo[3]/2)  
         
     elif 'eng' in flagDict.keys():
         print("Triggered")
-            #rect(*oneCo)
-        rect(*twoCo)
-        rect(*threeCo)
-        rect(*fourCo)
-        text("VOC",twoCo[0]+twoCo[2]/2,twoCo[1]+twoCo[3]/2)
-        text("SPA",threeCo[0]+threeCo[2]/2,threeCo[1]+threeCo[3]/2)
-        text("OTTO",fourCo[0]+fourCo[2]/2,fourCo[1]+fourCo[3]/2)
+            #rect(*engCo)
+        rect(*nlCo)
+        rect(*spaCo)
+        rect(*ottoCo)
+        text("VOC",nlCo[0]+nlCo[2]/2,nlCo[1]+nlCo[3]/2)
+        text("SPA",spaCo[0]+spaCo[2]/2,spaCo[1]+spaCo[3]/2)
+        text("OTTO",ottoCo[0]+ottoCo[2]/2,ottoCo[1]+ottoCo[3]/2)
         flagTaken = True
             
     elif 'nl' in flagDict:
-        rect(*oneCo)
-            #rect(*twoCo)
-        rect(*threeCo)
-        rect(*fourCo)
+        rect(*engCo)
+            #rect(*nlCo)
+        rect(*spaCo)
+        rect(*ottoCo)
         
-        text("ENG",oneCo[0]+oneCo[2]/2,oneCo[1]+oneCo[3]/2)
-        text("SPA",threeCo[0]+threeCo[2]/2,threeCo[1]+threeCo[3]/2)
-        text("OTTO",fourCo[0]+fourCo[2]/2,fourCo[1]+fourCo[3]/2) 
+        text("ENG",engCo[0]+engCo[2]/2,engCo[1]+engCo[3]/2)
+        text("SPA",spaCo[0]+spaCo[2]/2,spaCo[1]+spaCo[3]/2)
+        text("OTTO",ottoCo[0]+ottoCo[2]/2,ottoCo[1]+ottoCo[3]/2) 
             
     elif 'spa' in flagDict:
-        rect(*oneCo)
-        rect(*twoCo)
-        #rect(*threeCo)
-        rect(*fourCo)
+        rect(*engCo)
+        rect(*nlCo)
+        #rect(*spaCo)
+        rect(*ottoCo)
         
-        text("ENG",oneCo[0]+oneCo[2]/2,oneCo[1]+oneCo[3]/2)
-        text("VOC",twoCo[0]+twoCo[2]/2,twoCo[1]+twoCo[3]/2)
-        text("OTTO",fourCo[0]+fourCo[2]/2,fourCo[1]+fourCo[3]/2) 
+        text("ENG",engCo[0]+engCo[2]/2,engCo[1]+engCo[3]/2)
+        text("VOC",nlCo[0]+nlCo[2]/2,nlCo[1]+nlCo[3]/2)
+        text("OTTO",ottoCo[0]+ottoCo[2]/2,ottoCo[1]+ottoCo[3]/2) 
             
             
     elif 'otto' in flagDict:
-        rect(*oneCo)
-        rect(*twoCo)
-        rect(*threeCo)
+        rect(*engCo)
+        rect(*nlCo)
+        rect(*spaCo)
         
-        text("ENG",oneCo[0]+oneCo[2]/2,oneCo[1]+oneCo[3]/2)
-        text("VOC",twoCo[0]+twoCo[2]/2,twoCo[1]+twoCo[3]/2)
-        text("SPA",threeCo[0]+threeCo[2]/2,threeCo[1]+threeCo[3]/2)
-            #rect(*fourCo)
-    
+        text("ENG",engCo[0]+engCo[2]/2,engCo[1]+engCo[3]/2)
+        text("VOC",nlCo[0]+nlCo[2]/2,nlCo[1]+nlCo[3]/2)
+        text("SPA",spaCo[0]+spaCo[2]/2,spaCo[1]+spaCo[3]/2)
+            #rect(*ottoCo)
+    '''
     #if playerNames[currentSpeler] == "":
         #allPlayersChosen()
         
@@ -184,7 +201,7 @@ def setCurrentPlayer(currentPlayer):
 
 
 def mousePressed(playerNames, players):
-    global i 
+    global i,flags,flagdict,posdict
     i = 0 
     #global posDict,flagDict
     #flagDict = {}
@@ -198,34 +215,36 @@ def mousePressed(playerNames, players):
     y2 = y + w + height/14
 
     #1player
-    oneCo = [x,y,w,w]
-    twoCo = [x2,y,w,w]
-    threeCo = [x,y2,w,w]
-    fourCo = [x2,y2,w,w]
+    engCo = [x,y,w,w]
+    nlCo = [x2,y,w,w]
+    spaCo = [x,y2,w,w]
+    ottoCo = [x2,y2,w,w]
     
-    if isMouseInSpace(*oneCo) or isMouseInSpace(*twoCo) or isMouseInSpace(*threeCo) or isMouseInSpace(*fourCo):
-        if isMouseInSpace(*oneCo):
-            flagDict[playerNames[currentSpeler]] = "eng"
-            flagTaken = True
-            if currentSpeler != len(playerNames):
-                setCurrentPlayer(currentSpeler + 1)
-            #s3.setCurrentPlayer(currentPlayer + 1)
-            #print(getCurrentPlayer())
-            
-        elif isMouseInSpace(*twoCo):
-            flagDict[playerNames[currentSpeler]] = "nl"
-            flagTaken = True
-            if currentSpeler != len(playerNames):
-                setCurrentPlayer(currentSpeler + 1)
-            #print (str(flagDict[playerNames[currentPlayer]]))
-        elif isMouseInSpace(*threeCo):
-            flagDict[playerNames[currentSpeler]] = "spa"
-            flagTaken = True
-            if currentSpeler != len(playerNames):
-                setCurrentPlayer(currentSpeler + 1)
-        elif isMouseInSpace(*fourCo):
-            flagDict[playerNames[currentSpeler]] = "otto"
-            setCurrentPlayer(currentSpeler + 1)
+    if isMouseInSpace(*engCo) or isMouseInSpace(*nlCo) or isMouseInSpace(*spaCo) or isMouseInSpace(*ottoCo):
+        if "eng" in flags:
+            if isMouseInSpace(*engCo):
+                flagDict[playerNames[currentSpeler]] = "eng"
+                s3.setCurrentPlayer(currentSpeler + 1)
+                    
+                #s3.setCurrentPlayer(currentPlayer + 1)
+                #print(getCurrentPlayer())
+                flags.remove("eng")
+        if "nl" in  flags:    
+            if isMouseInSpace(*nlCo):
+                flagDict[playerNames[currentSpeler]] = "nl"
+                s3.setCurrentPlayer(currentSpeler + 1)
+                #print (str(flagDict[playerNames[currentPlayer]]))
+                flags.remove("nl")
+        if "spa" in flags:
+            if isMouseInSpace(*spaCo):
+                flagDict[playerNames[currentSpeler]] = "spa"
+                s3.setCurrentPlayer(currentSpeler + 1)
+                flags.remove("spa")
+        if "otto" in flags:
+            if isMouseInSpace(*ottoCo):
+                flagDict[playerNames[currentSpeler]] = "otto"
+                s3.setCurrentPlayer(currentSpeler + 1)
+                flags.remove("otto")
         
             
     """
@@ -235,3 +254,4 @@ def hollowRect(x,y,w,h):
     line(x,y,x,y+h)
     line(x,y+h,x+w,y+h)
     line(x+w,y,x+w,y+h)
+    """
