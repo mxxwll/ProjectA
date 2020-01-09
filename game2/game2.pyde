@@ -422,6 +422,7 @@ def drawECard(x,y,w,h):
     
     global ctf,diplo,embargo,gehrout,golf,huur,smeer,smok,verl,winst
     global players,curplayer,cardarr,choice,choiceScreen,kaart,noCard
+    global chanceb,main
     fill(mainColor)
     rect(x,y,w,h)
     fill(0)
@@ -435,87 +436,118 @@ def drawECard(x,y,w,h):
     textAlign(CENTER)
     image(frame,x,y,w,h)
     textSize(30)
-    text("Kanskaart",x+w/2,y+w/7)
+    text("Kanskaart",x+w/2,y+h/8)
     image(cardarr[kaart],x+w/3,y+h/4,w/3,h/2)
     time.sleep(3)
     # cardarr = [ctf,diplo,embargo,gehrout,golf,huur,smeer,smok,verl,winst]
     #ctf
-    if kaart == 0:
-        pass
-    #diplo
-    elif kaart == 1:
-        pass
-    #embargo
-    elif kaart == 2:
-        curplayer.addWait(1)
-    #gehrout
-    elif kaart == 3:
-        
-        #keuze tussen brug gebruiken voor 2 goudstukken of niet
-        if choice == None:
-            time.sleep(3)
-            choiceScreen = True
-        else:
-            if choice == False:
-                choiceScreen = False
-                pass
-            elif choice == True:
-                choiceScreen = False
-                if curEmp == "otto":
-                    while curplayer.getPos() < 46:
-                        curplayer.changePos(1)
-                elif curEmp == "nl":
-                    while curplayer.getPos() < 26:
-                        curplayer.changePos(1)
-                elif curEmp == "eng":
-                    while curplayer.getPos() < 6:
-                        curplayer.changePos(1)
-                elif curEmp == "spa":
-                    while curplayer.getPos() < 66:
-                        curplayer.changePos(1)
-    #golf    
-    elif kaart == 4:
-        curplayer.changePos(6)
-    #huur
-    elif kaart == 5:
-        pass
-    #smeer
-    elif kaart == 6:
-        pass
-    #smok
-    elif kaart == 7:
-        pass
-    #verl
-    elif kaart == 8:
-        curplayer.changeCoins(-1)
-    #winst
-    elif kaart == 9:
-        curplayer.changeCoins(1)
-        
-    if choiceScreen:
-        fill(mainColor)
-        rect(x,y,w,h)
-        textAlign(CENTER)
-        textSize(20)
-        if mouseInSquare(x+w/8,y+h/2,w/4):
-            fill(100,255,100)
+    kaart = 3
+    if mousePressed:
+
+        if kaart == 0:
+            time.sleep(1)
+            chanceb = False
+            main = True
+        #diplo
+        elif kaart == 1:
+            time.sleep(1)
+            if mousePressed:    
+                chanceb = False
+                main = True
+        #embargo
+        elif kaart == 2:
+            curplayer.addWait(1)
+            if mousePressed:    
+                chanceb = False
+                main = True
+        #gehrout
+        elif kaart == 3:
+            #keuze tussen brug gebruiken voor 2 goudstukken of niet
+            if choice == None:
+                fill(mainColor)
+                rect(x,y,w,h)
+                textAlign(CENTER)
+                textSize(20)
+                
+                if mouseInSquare(x+w/8,y+h/2,w/4):
+                    fill(0,150,0)
+                    if mousePressed:
+                        choice = True
+                else:
+                    fill(0,255,0)
+                square(x+w/8,y+h/2,w/4)
+                fill(0)
+                text("Ja",x+w/4,y+h/2+w/8)
+                
+                if mouseInSquare(x+w-w/4-w/8,y+h/2,w/4):
+                    fill(150,0,0)
+                    if mousePressed:
+                        choice = False
+                else:
+                    fill(100,0,0)
+                square(x+w-w/4-w/8,y+h/2,w/4)
+                fill(0)
+                text("Nee",x+w-w/4,y+h/2+w/8)
+            else:
+                if choice == False:
+                    print("g")
+                elif choice == True:
+                    choiceScreen = False
+                    if curEmp == "otto":
+                        while curplayer.getPos() < 46:
+                            curplayer.changePos(1)
+                            
+                    elif curEmp == "nl":
+                        while curplayer.getPos() < 26:
+                            curplayer.changePos(1)
+                    elif curEmp == "eng":
+                        while curplayer.getPos() < 6:
+                            curplayer.changePos(1)
+                    elif curEmp == "spa":
+                        while curplayer.getPos() < 66:
+                            curplayer.changePos(1)
+                
+                if mousePressed:    
+                    curplayer.changeCoins(-2)
+                    chanceb = False
+                    main = True
+        #golf    
+        elif kaart == 4:
+            curplayer.changePos(6)
             if mousePressed:
-                choice = True
-        else:
-            fill(0,255,0)
-        square(x+w/8,y+h/2,w/4)
-        fill(0)
-        text("Ja",x+w/2,y+h/6)
-        
-        if mouseInSquare(x+w-w/4-w/8,y+h/2,w/4):
-            fill(255,100,100)
+                chanceb = False
+                main = True
+            
+        #huur
+        elif kaart == 5:
+            time.sleep(1)
+            chanceb = False
+            main = True
+        #smeer
+        elif kaart == 6:
+           if mousePressed:
+                chanceb = False
+                main = True
+        #smok
+        elif kaart == 7:
             if mousePressed:
-                choice = False
-        else:
-            fill(100,0,0)
-        square(x+w-w/4-w/8,y+h/2,w/4)
-        fill(0)
-        text("Nee",x+w/2,y+h/6)
+                chanceb = False
+                main = True
+        #verl
+        elif kaart == 8:
+            curplayer.changeCoins(-1)
+            if mousePressed:
+                chanceb = False
+                main = True
+        #winst
+        elif kaart == 9:
+            curplayer.changeCoins(1)
+            if mousePressed:
+                chanceb = False
+                main = True
+            
+        
+            
     
     
 def rollProcess1():
@@ -550,12 +582,12 @@ def statBox(x,y,w,h):
         textAlign(RIGHT)
         text(lis[i].name + ":",x+w/4,y+(60*(i+1)))
         textAlign(LEFT)
-        text("positie: " + str(lis[i].curpos) + ", vlaggen: " + str(lis[i].count),x+w/4+w/10,y+(60*(i+1)))
-        text(empDict[lis[i].empire],x+w/4+w/10,y+(60*(i+1.4)))
+        text("positie: " + str(lis[i].curpos) + ", vlaggen: " + str(lis[i].count),x+w/4+w/10,y+(70*(i+1)))
+        text(empDict[lis[i].empire] + ", munten: " + str(lis[i].getCoins()),x+w/4+w/10,y+(70*(i+1.45)))
         
     textAlign(LEFT)
     try:
-        text("Aan de beurt: "+curplayer.name,x+w/4,y+(70*5))
+        text("Aan de beurt: "+curplayer.name,x+w/4,y+(70*(len(players)+1)))
     except AttributeError:
         text("Aan de beurt: ",x+w/4,y+(70*5))
         

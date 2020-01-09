@@ -201,7 +201,7 @@ class player:
         self.count = 0
         self.inv = []
         self.wait = 0
-        self.coins = 0
+        self.coins = 10
     
     def changeCoins(self,x):
         self.coins += x
