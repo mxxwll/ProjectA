@@ -323,12 +323,14 @@ def setup():
     #game setup
     
 def draw():
+    global menu,game
     if menu:
         global f, f1, f2, j
         j = []
         global scherm
         background(maincolor)
-        
+        global players
+
         textFont(f2)
         textAlign(CENTER)
         if scherm == 0:
@@ -339,10 +341,18 @@ def draw():
         elif scherm == 2:
             screen2.draw(players)
         elif scherm == 3:
-            playerNames = screen2.getPlayerNames()
-            screen3.draw(players, playerNames)
-            if screen3.getAllTaken() == True:
-                scherm = 0
+            try:
+                playerNames = screen2.getPlayerNames()
+                screen3.draw(players, playerNames)
+            except IndexError:
+                flagDict = screen3.returnFlagDict()
+                players = []
+                for i in flagDict:
+                    players.append(functions.player(i,flagDict[i]))
+                                   
+                menu = False
+                game = True
+        
         elif scherm == 100:
             handleiding.setup()
             handleiding.draw()
@@ -910,11 +920,13 @@ def changeTurn():
     try:
         players[(players.index(curplayer)+1)%len(players)].startTurn()
         curplayer.endTurn()
-    except AttributeError:
-        pass
-
-
-
+    
+    except ValueError:
+        try:
+            players[0].startTurn()
+            curplayer.endTurn()
+        except AttributeError:
+            pass
     
     
 def statBox(x,y,w,h):
@@ -929,7 +941,7 @@ def statBox(x,y,w,h):
     lis = sorted(players,key=lambda x:x.startpos,reverse=False)
     for i in range(len(lis)):
         textAlign(RIGHT)
-        text(lis[i].name + ":",x+w/4,y+(60*(i+1)))
+        text(lis[i].name + ":",x+w/4,y+(70*(i+1)))
         textAlign(LEFT)
         text("positie: " + str(lis[i].curpos) + ", vlaggen: " + str(lis[i].count),x+w/4+w/10,y+(70*(i+1)))
         text(empDict[lis[i].empire] + ", munten: " + str(lis[i].getCoins()),x+w/4+w/10,y+(70*(i+1.45)))
@@ -954,63 +966,63 @@ def mousePressed():
     global p1
     if menu:
         global playerNames, empirePlayer
-    global posDict,flagDict
-    flagDict = {}
-    playerNames = []
-    
-    global scherm
-    global players
-    if scherm == 0: 
-        if isMouseInSpace(*contCo):
-            scherm = 1 
-            #naar spel
-        if isMouseInSpace(*guideCo):
-            scherm = 100
-            #naar handleiding
-        if isMouseInSpace(*backCo):
-            exit()
-            #verlaat spel
-    if scherm == 1:
-        if isMouseInSpace(*backCo):
-            scherm = 0
-            #naar main menu
-        elif isMouseInSpace(*oneCo):
-            players = 1
-            scherm = 2
-        elif isMouseInSpace(*twoCo):
-            players = 2
-            scherm = 2
-        elif isMouseInSpace(*threeCo):
-            players = 3
-            scherm = 2
-        elif isMouseInSpace(*fourCo):
-            players = 4
-            scherm = 2    
-    if scherm == 2:
-        playerNames = screen2.mousePressed(players)
-        if isMouseInSpace(*backCo):
-            scherm = 1
-            players = 0
-        if isMouseInSpace(*okCo):
-            scherm = 3
-            #naar aantal spelers
-    if scherm == 100:
-        global backW,backH,backX,backY
-        backX = width/6
-        backY = height-height/6
-        backW = 150
-        backH = 40
-        backCoHand = [backX, backY, backW, backH]
-        if isMouseInSpace(*backCoHand):
-            scherm = 0
-            #naar main menu
-    if scherm == 3:
-        playerNames = screen2.getPlayerNames()
-        screen3.mousePressed(playerNames, players)
-        newBackGo = screen3.getCoordinates()
-        if isMouseInSpace(*newBackGo):
-            scherm = scherm - 1
-            #naar main menu
+        global posDict,flagDict
+        flagDict = {}
+        playerNames = []
+        
+        global scherm
+        global players
+        if scherm == 0: 
+            if mouseInRect(*contCo):
+                scherm = 1 
+                #naar spel
+            if mouseInRect(*guideCo):
+                scherm = 100
+                #naar handleiding
+            if mouseInRect(*backCo):
+                exit()
+                #verlaat spel
+        if scherm == 1:
+            if mouseInRect(*backCo):
+                scherm = 0
+                #naar main menu
+            elif mouseInRect(*oneCo):
+                players = 1
+                scherm = 2
+            elif mouseInRect(*twoCo):
+                players = 2
+                scherm = 2
+            elif mouseInRect(*threeCo):
+                players = 3
+                scherm = 2
+            elif mouseInRect(*fourCo):
+                players = 4
+                scherm = 2    
+        if scherm == 2:
+            playerNames = screen2.mousePressed(players)
+            if mouseInRect(*backCo):
+                scherm = 1
+                players = 0
+            if mouseInRect(*okCo):
+                scherm = 3
+                #naar aantal spelers
+        if scherm == 100:
+            global backW,backH,backX,backY
+            backX = width/6
+            backY = height-height/6
+            backW = 150
+            backH = 40
+            backCoHand = [backX, backY, backW, backH]
+            if mouseInRect(*backCoHand):
+                scherm = 0
+                #naar main menu
+        if scherm == 3:
+            playerNames = screen2.getPlayerNames()
+            screen3.mousePressed(playerNames, players)
+            newBackGo = screen3.getCoordinates()
+            if mouseInRect(*newBackGo):
+                scherm = scherm - 1
+                #naar main menu
     else:
         if not startb:
             startFunc()

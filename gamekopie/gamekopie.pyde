@@ -151,7 +151,7 @@ def draw():
         for i in range(1,players+1):
             text("speler " + str(i) + ":",statBox[0]+statBox[2]/4,statBox[1]+statBox[3]/5+i*25)
             
-def isMouseInSpace(x, y, w, h):
+def mouseInRect(x, y, w, h):
     return(x < mouseX < x + w and y < mouseY < y + h)
 
 def mousePressed():
@@ -164,37 +164,37 @@ def mousePressed():
         global scherm
         global players
         if scherm == 0: 
-            if isMouseInSpace(*contCo):
+            if mouseInRect(*contCo):
                 scherm = 1 
                 #naar spel
-            if isMouseInSpace(*guideCo):
+            if mouseInRect(*guideCo):
                 scherm = 100
                 #naar handleiding
-            if isMouseInSpace(*backCo):
+            if mouseInRect(*backCo):
                 exit()
                 #verlaat spel
         if scherm == 1:
-            if isMouseInSpace(*backCo):
+            if mouseInRect(*backCo):
                 scherm = 0
                 #naar main menu
-            elif isMouseInSpace(*oneCo):
+            elif mouseInRect(*oneCo):
                 players = 1
                 scherm = 2
-            elif isMouseInSpace(*twoCo):
+            elif mouseInRect(*twoCo):
                 players = 2
                 scherm = 2
-            elif isMouseInSpace(*threeCo):
+            elif mouseInRect(*threeCo):
                 players = 3
                 scherm = 2
-            elif isMouseInSpace(*fourCo):
+            elif mouseInRect(*fourCo):
                 players = 4
                 scherm = 2    
         if scherm == 2:
             playerNames = screen2.mousePressed(players)
-            if isMouseInSpace(*backCo):
+            if mouseInRect(*backCo):
                 scherm = 1
                 players = 0
-            if isMouseInSpace(*okCo):
+            if mouseInRect(*okCo):
                 scherm = 3
                 #naar aantal spelers
         if scherm == 100:
@@ -204,14 +204,14 @@ def mousePressed():
             backW = 150
             backH = 40
             backCoHand = [backX, backY, backW, backH]
-            if isMouseInSpace(*backCoHand):
+            if mouseInRect(*backCoHand):
                 scherm = 0
                 #naar main menu
         if scherm == 3:
             playerNames = screen2.getPlayerNames()
             screen3.mousePressed(playerNames, players)
             newBackGo = screen3.getCoordinates()
-            if isMouseInSpace(*newBackGo):
+            if mouseInRect(*newBackGo):
                 scherm = scherm - 1
                 #naar main menu
             

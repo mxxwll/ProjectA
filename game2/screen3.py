@@ -50,7 +50,8 @@ def setup():
     spaCo = [x,y2,w,w]
     ottoCo = [x2,y2,w,w]
     
-
+def returnFlagDict():
+    return flagDict
 
     
 def draw(players, playerNames):
@@ -94,11 +95,9 @@ def draw(players, playerNames):
     textSize(30)
     
     
-    try:
-        text(str(playerNames[currentSpeler]),width/2,height/8)
-    except IndexError:
-        print(flagDict)
-        exit()
+    text(str(playerNames[currentSpeler]),width/2,height/8)
+    print(flagDict)
+        
     text("Select your empire: ", width/2, height / 5)
         
     text("Terug",backCo[0]+backCo[2]/2,backCo[1]+backCo[3]*0.75)
