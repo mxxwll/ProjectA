@@ -25,6 +25,8 @@ cp = False
 acp = False
 game = True
 menu = False
+cha = False
+
 
 rolled = False
 correct = None
@@ -32,6 +34,10 @@ correct = None
 q = True
 a = False
 c = False
+
+cap = False
+per = True
+fla = False
 
 chosenplayer = None
 turn = 0
@@ -211,7 +217,7 @@ def setup():
     verl = loadImage("verlies.png")
     winst = loadImage("winst.png")
     
-    cardarr = [ctf,diplo,embargo,gehrout,golf,huur,smeer,smok,verl,winst]
+    cardarr = [ctf,diplo,embargo,gehrout,golf,huur,smeer,verl,winst]
     
     
     
@@ -243,9 +249,10 @@ def draw():
     elif game:
         global main,curEmp,flash,q,a,rolled,finish,chanceb,noCard
         global curplayer,difb,quest,kaart,cardArr
-        global mainDice,start,p1,turn,cp,chosenplayer,acp
+        global mainDice,start,p1,turn,cp,chosenplayer,acp,secondcolor
         
-        
+        secondcolor = color(146,128,60)
+
         background(mainColor)
         textAlign(CENTER)
         textFont(standardfont)
@@ -266,11 +273,7 @@ def draw():
             textAlign(CENTER)
             if not(rolled) or start <= eind:
                 text("klik om te rollen",width/2,height/8)
-            if turn == 1 and rolled:
-                curEmp = functions.isInEmpire(curplayer.getPos())
-                noCard = True
-                chanceb = True
-                main = False
+        
                 
             if start <= eind:
                 mainDice.showdobbel(random.randint(1,6))
@@ -294,7 +297,7 @@ def draw():
                             difb = True
                             main = False
                                 
-                        elif mainBoard.checkEvent(curplayer.getPos()):
+                        elif mainBoard.checkEvent(curplayer.getPos()) and cha:
                             curEmp = functions.isInEmpire(curplayer.getPos())
                             noCard = True
                             chanceb = True
@@ -325,13 +328,23 @@ def draw():
         elif acp:
             #huur
             if kaart == 5:
-                curplayer.changeCoins(-1)
-                chosenplayer.addWait(1)
-                acp = False
-                main = True
-                chosenplayer = None
-                if turn == 1:
-                    turn += 1
+                if curplayer.coins > 0:
+                    curplayer.changeCoins(-1)
+                    chosenplayer.addWait(1)
+            if kaart == 6:
+                if chosenplayer.coins > 0:
+                    chosenplayer.changeCoins(-1)
+                    curplayer.changeCoins(1)
+            chosenplayer = None
+            acp = False
+            main = True
+            kaart = None
+            if turn == 1:
+                turn += 1
+        '''
+        if cap:
+            CTF(0,0,width,height)
+        '''
         if checkWinner() != False:
             winner = checkWinner()
             finish = True
@@ -339,6 +352,7 @@ def draw():
             winScreen(winner)
         
         print(kaart)
+        
 def mouseClicked():
     global c,q,a,difb,flash,dif
     if quest:
@@ -354,7 +368,7 @@ def mouseClicked():
     
 
 def chooseDif(x,y,w,h):
-    global dif,difb,quest,flash
+    global dif,difb,quest,flash,secondcolor
     textAlign(CENTER)
     hollowRect(x,y,w,h)
     fill(mainColor)
@@ -462,9 +476,9 @@ def drawQCard(x,y,w,h):
 
 def drawECard(x,y,w,h):
     
-    global ctf,diplo,embargo,gehrout,golf,huur,smeer,smok,verl,winst
+    global ctf,diplo,embargo,gehrout,golf,huur,smeer,verl,winst
     global players,curplayer,cardarr,choice,choiceScreen,kaart,noCard
-    global chanceb,main,secrout,cp
+    global chanceb,main,secrout,cp,cap,cha
     fill(mainColor)
     rect(x,y,w,h)
     fill(0)
@@ -479,29 +493,32 @@ def drawECard(x,y,w,h):
     image(frame,x,y,w,h)
     textSize(30)
     text("Kanskaart",x+w/2,y+h/8)
-    kaart = 5
     image(cardarr[kaart],x+w/3,y+h/4,w/3,h/2)
     # cardarr = [ctf,diplo,embargo,gehrout,golf,huur,smeer,smok,verl,winst]
     #ctf
+    if kaart == 0:
+        kaart = 8
     if mousePressed:
-        #ctf
+        #ctf *
         if kaart == 0:
             if mousePressed:
                 chanceb = False
-                main = True
-        #diplo
+                cap = True
+        #diplo 
         elif kaart == 1:
             curplayer.diplom()
             if mousePressed: 
                 curplayer.addWait(1)
                 chanceb = False
                 main = True
+                cha = True
         #embargo
         elif kaart == 2:
             if mousePressed:    
                 curplayer.addWait(1)
                 chanceb = False
                 main = True
+                cha = True
         #gehrout
         elif kaart == 3:
             #keuze tussen brug gebruiken voor 2 goudstukken of niet
@@ -514,8 +531,9 @@ def drawECard(x,y,w,h):
                 curplayer.changePos(6)
                 chanceb = False
                 main = True
+                cha = True
             
-        #huur
+        #huur 
         elif kaart == 5:
             if mousePressed:
 
@@ -524,30 +542,184 @@ def drawECard(x,y,w,h):
                 time.sleep(1)
 
                 
-        #smeer
-        elif kaart == 6:
-           if mousePressed:
-                chanceb = False
-                main = True
         #smok
-        elif kaart == 7:
+        elif kaart == 6:
             if mousePressed:
                 chanceb = False
-                main = True
+                cp = True
         #verl
-        elif kaart == 8:
+        elif kaart == 7:
             if mousePressed:
                 curplayer.changeCoins(-1)
 
                 chanceb = False
                 main = True
+                cha = True
         #winst
-        elif kaart == 9:
+        elif kaart == 8:
             if mousePressed:
                 curplayer.changeCoins(1)
                 chanceb = False
                 main = True
+                cha = True
+'''               
+def CTF(x,y,w,h):
+    global cap,main,curplayer,players,per,fla
+    lis = list(filter(lambda i : i != curplayer,players))
+    
+    chosen = None
+    other = functions.checkFlags(curplayer,lis)
+
+    fill(mainColor)
+    rect(x,y,w,h)
+    image(frame,x,y,w,h)
+    fill(0)
+    textAlign(CENTER)
+    
+    if len(other.keys()) == 0:
+        textSize(40)
+        text("Geen vlaggen om te stelen",x+w/2,y+h/2)
+        textSize(20)
+        text("Klik om door te gaan",x+w/2,y+h/1,5)
+        if mousePressed:
+            main = True
+            cap = False
+    if fla:
+        fill(mainColor)
+        text(chosen.name + "'s flags")
+        if k["otto"]:
+            if mouseInSquare(35,y+w/2,200):
+                fill(155,0,0)
+                if mousePressed:
+                    chosen.delFlag("otto")
+                    curplayer.addFlag("otto")
+                    main = True
+                    cap = False
+                    per = True
+                    Fla = False
+            else:
+                fill(255,0,0)
+            square(35,y+w/2,200)
+        if k["spa"]:
+            if mouseInSquare(270,y+w/2,200):
+                fill(155,155,0)
+                if mousePressed:
+                    chosen.delFlag("spa")
+                    curplayer.addFlag("spa")
+                    main = True
+                    cap = False
+                    per = True
+                    Fla = False
+            else:
+                fill(255,255,0)
+            square(270,y+w/2,200)
+        if k["eng"]:
+            if mouseInSquare(575,y+w/2,200):
+                fill(155,155,0)
+                if mousePressed:
+                    chosen.delFlag("eng")
+                    curplayer.addFlag("eng")
+                    main = True
+                    cap = False
+                    per = True
+                    Fla = False
+            else:
+                fill(255,255,0)
+            square(575,y+w/2,200)
+        if k["nl"]:
+            if mouseInSquare(845,y+w/2,200):
+                fill(155,155,0)
+                if mousePressed:
+                    chosen.delFlag("nl")
+                    curplayer.addFlag("nl")
+                    main = True
+                    cap = False
+                    per = True
+                    Fla = False
+            else:
+                fill(255,255,0)
+            square(845,y+w/2,200)
+    if per:
+        if len(other.keys()) == 1:
+            if mouseInSquare(440,y+h/2,200):
+                fill(secondcolor)
+                if mousePressed:
+                    chosen = other.keys()[0]
+                    per = False
+                    fla = True
+            else:
+                fill(mainColor)
+            square(440,y+h/2,200)
+            text(other.keys()[0].name,540,y+h/2+100)
+        elif len(other.keys()) == 2:
+            if mouseInSquare(170,y+h/2,200):
+                fill(secondcolor)
+                if mousePressed:
+                    chosen = other.keys()[0]
+                    per = False
+                    fla = True
+            else:
+                fill(mainColor)
+            square(170,y+h/2,200)
+            fill(0)
+            text(other.keys()[0].name,270,y+h/2+100)
+            if mouseInSquare(710,y+h/2,200):
+                fill(secondcolor)
+                if mousePressed:
+                    chosen = other.keys()[1]
+                    per = False
+                    fla = True
+            else:
+                fill(mainColor)
+            square(710,y+h/2,200)
+            fill(0)
+            text(other.keys()[1].name,810,y+h/2+100)
+        else:
+            if mouseInSquare(80,y+h/2,200):
+                fill(secondcolor)
+                if mousePressed:
+                    chosen = other.keys()[0]
+                    per = False
+                    fla = True
+            else:
+                fill(mainColor)
+            square(80,y+h/2,200)
+            fill(0)
+            text(other.keys()[0].name,180,y+h/2+100)
+            if mouseInSquare(440,y+h/2,200):
+                fill(secondcolor)
+                if mousePressed:
+                    chosen = other.keys()[1]
+                    per = False
+                    fla = True
+            else:
+                fill(mainColor)
+            square(440,y+h/2,200)
+            fill(0)
+            text(other.keys()[1].name,540,y+h/2+100)
+            if mouseInSquare(800,y+h/2,200):
+                fill(secondcolor)
+                if mousePressed:
+                    chosen = other.keys()[2]
+                    per = False
+                    fla = True
+            else:
+                fill(mainColor)
+            square(800,y+h/2,200)
+            fill(0)
+            text(other.keys()[2].name,900,y+h/2+100)
+
+    
+    '''            
             
+                
+
+            
+        
+    
+        
+        
+
 def choosePlayer(x,y,w,h):
     global chosenplayer,curplayer,players,cp,acp
     lis = list(filter(lambda i : i != curplayer,players))
@@ -604,7 +776,7 @@ def secRout(x,y,w,h):
             if curEmp == "otto":
                 while curplayer.getPos() != 46:
                     curplayer.changePos(1)
-                    
+                
             elif curEmp == "nl":
                 while curplayer.getPos() != 26:
                     curplayer.changePos(1)

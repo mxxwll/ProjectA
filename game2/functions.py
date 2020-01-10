@@ -235,8 +235,28 @@ class player:
         self.coins -= 1
     def diplom(self):
         self.notol = True
-        
-
+    
+    def delFlag(self,flag):
+        self.flags[flag] = False
+        self.count -= 1
+def checkFlags(current,other):
+    curflags = current.flags
+    otherflags = {}
+    for i in other:
+        otherflags[i] = i.flags
+    for i in curflags:
+        if curflags[i] == True:
+            del curflags[i]
+    for x in otherflags:
+        for y in otherflags[x]:
+            if y not in curflags:
+                del x[y]
+    
+    for i in otherflags:
+        if i == {}:
+            del otherflags[i]
+    return otherflags
+    
 class board:
     def __init__(self):
         self.empires = rijken
