@@ -232,20 +232,15 @@ def getPlayerNames():
 
     
 def mousePressed(players):
+    print(players)
     global number_of_players, name_input_screen_display, main_screen_display
     global player1_box_selected, player2_box_selected, player3_box_selected
     global player4_box_selected, player5_box_selected, player6_box_selected
-    global player1_fieldcards, player2_fieldcards, player3_fieldcards, player4_fieldcards, player5_fieldcards, player6_fieldcards
-    global fieldcard_list, fieldCard1, fieldCard2, fieldCard3, fieldCard4, fieldCard5, fieldCard6
-    global duelCard7, duelCard8, duelCard9, duelCard10, duelCard11, duelCard12
-    global trapCard_list, trapCard1, trapCard2, trapCard3, trapCard4, trapCard5
-    global player_card_list_g, player_name_g, show_cards_display, player_starting
-    global isMouseWithinSpace, value, bgs, bgsVolume, begin_ok_button
+    global player_starting
+    global isMouseWithinSpace
     global show_empty_name_error
     number_of_players = players
     global s2
-    
-    
     
     if show_empty_name_error == True:
         if (mouseX >= screenWidth/2 + 360 and mouseX <= screenWidth/2 + 420) and (mouseY >= screenHeight/2 - 20 and mouseY <= screenHeight/2 + 20):
@@ -367,6 +362,7 @@ def keyPressed():
         if (player1_box_selected == True) and (key != '\b'):
             if len(player1_name) < 10:
                 player1_name += key
+                
         elif (player1_box_selected == True) and (key == '\b'):
             player1_name = player1_name[:-1]
         

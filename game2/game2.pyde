@@ -1053,6 +1053,10 @@ def checkWinner():
             return i
     return False
 
+def keyPressed():
+    if scherm == 2:
+        screen2.keyPressed()
+        
 def mouseInRect(x,y,w,h):
     return (x < mouseX < x+w) and (y< mouseY < y+h)
 def mouseInSquare(x,y,w):
