@@ -1,11 +1,12 @@
+
 def setup():
     global schip
     global f, f1, f2
-    schip = loadImage("schip.png")
     f = createFont("Harrington",40)
-    f1 = createFont("Harrington",80)
+    f1 = createFont("Harrington",60)
     f2 = createFont("Harrington",30)
-    
+    schip = loadImage("schip.png")
+
     global backCo
     backX = width/7
     backY = height-height/4
@@ -36,7 +37,9 @@ def draw():
     image(schip,0,0,width,height)
     fill(0)
     textFont(f1)
-    text("Vlaggenjacht",width/4,height/10)
+    textAlign(LEFT)
+    text("Vlaggenjacht",width/6,height/9)
+    textAlign(CENTER)
     textFont(f)
     fill(secondColor,63)
     fill(134,122,91,63)

@@ -30,6 +30,7 @@ menu = True
 cha = False
 
 
+
 rolled = False
 correct = None
 
@@ -197,6 +198,8 @@ def setup():
     global mainColor
     mainColor = color(234,222,191)
     
+    screen0.setup()
+
     global standardFont
     standardFont = createFont("Harrington",25)
     
@@ -235,8 +238,8 @@ def setup():
     global backCo
     backX = width/7
     backY = height-height/4
-    backW = 250
-    backH = 50
+    backW = 350
+    backH = 100
     backCo = [backX,backY,backW,backH]
     
     global contCo
@@ -263,18 +266,20 @@ def setup():
     s = ""
     shift = False
     
-    #coords1
-    ws1 = width/7          
-    xs1 = width/2-width/7-width/14
-    ys1 = height/3
-    x2s1 = width/2 + width/14
-    y2s1 = y + w + height/14
+
     
-    global oneCo,twoCo,threeCo,fourCo
-    oneCo = [xs1,ys1,ws1,ws1]
-    twoCo = [x2s1,ys1,ws1,ws1]
-    threeCo = [xs1,y2s1,ws1,ws1]
-    fourCo = [x2s1,y2s1,ws1,ws1]
+    global twoCo,threeCo,fourCo,fiveCo
+    ws1 = width/8          
+    xs1 = width/2-width/7-width/14
+    ys1 = height/3.5
+    x2s1 = width/2 + width/14
+    y2s1 = ys1 + ws1 + height/14
+    
+    twoCo = [xs1,ys1,ws1,ws1]
+    threeCo = [x2s1,ys1,ws1,ws1]
+    fourCo = [xs1,y2s1,ws1,ws1]
+    fiveCo = [x2s1,y2s1,ws1,ws1]
+    
     #main menu setup
     #game setup
     global mainDice,curplayer,frame
@@ -334,7 +339,6 @@ def draw():
         textFont(f2)
         textAlign(CENTER)
         if scherm == 0:
-            screen0.setup()
             screen0.draw()
         elif scherm == 1:
             screen1.draw()
@@ -986,9 +990,6 @@ def mousePressed():
             if mouseInRect(*backCo):
                 scherm = 0
                 #naar main menu
-            elif mouseInRect(*oneCo):
-                players = 1
-                scherm = 2
             elif mouseInRect(*twoCo):
                 players = 2
                 scherm = 2
@@ -997,6 +998,9 @@ def mousePressed():
                 scherm = 2
             elif mouseInRect(*fourCo):
                 players = 4
+                scherm = 2
+            elif mouseInRect(*fiveCo):
+                players = 5
                 scherm = 2    
         if scherm == 2:
             playerNames = screen2.mousePressed(players)

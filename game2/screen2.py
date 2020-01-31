@@ -189,6 +189,7 @@ def name_input_screen(number_of_players):
     text(player2_name, 300, 332)    
     text(player3_name, 300, 432)    
     text(player4_name, 300, 532)    
+    text(player5_name, 300, 632)
     print(number_of_players)
     textAlign(CENTER)
     fill(255,255,255)
@@ -205,6 +206,8 @@ def name_input_screen(number_of_players):
         player_names = [player1_name, player2_name, player3_name]
     elif number_of_players == 4:
         player_names = [player1_name, player2_name, player3_name, player4_name]
+    elif number_of_players == 5:
+        player_names = [player1_name, player2_name, player3_name, player4_name,player5_name]
                     
 
     
@@ -319,7 +322,8 @@ def mousePressed(players):
                     player_names = [player1_name, player2_name, player3_name]
                 elif number_of_players > 3:
                     player_names = [player1_name, player2_name, player3_name, player4_name]
-                    
+                elif number_of_players > 4:
+                    player_names = [player1_name, player2_name, player3_name, player4_name,player5_name]
                 return player_names
                 
             
