@@ -6,12 +6,8 @@ shift = False
 screenWidth = 1500
 screenHeight = 800
 
-backX = screenWidth/7
-backY = screenHeight-screenHeight/4 
-backW = 350
-backH = 100
-backCo = [backX,backY,backW,backH]
-    
+
+
 begin_ok_button = False
 show_manual_display = False
 show_empty_name_error = False
@@ -61,9 +57,20 @@ def endName():
             y += 1
 
 def draw(players):
-    name_input_screen(players)
     
+    global backCo
+    backX = width/7
+    backY = height-height/4
+    backW = 350
+    backH = 100
+    backCo = [backX,backY,backW,backH]
+    
+    name_input_screen(players)
+    global number_of_players
+    number_of_players = players
         
+    
+    
     """
     backX = width/7
     backY = height-height/4
@@ -104,6 +111,7 @@ def draw(players):
     
 """
 
+    
 def name_input_screen(number_of_players):
     global name_input_screen_display, show_empty_name_error
     global player1_name, player2_name, player3_name, player4_name, player5_name, player6_name
@@ -111,11 +119,6 @@ def name_input_screen(number_of_players):
     
     
     
-    backX = width/7
-    backY = height-height/4
-    backW = 350
-    backH = 100
-    backCo = [backX,backY,backW,backH]
     
     f = createFont("Harrington",32)
     #global s
@@ -138,8 +141,8 @@ def name_input_screen(number_of_players):
     #text("Number of players: " + str(number_of_players), screenWidth/2, 100)
     
     x = number_of_players
-    YPositionRect = 200
-    YPositionText = 232
+    YPositionRect = 150
+    YPositionText = 182
     y = player_number = 1
     
     while x > 0:        
@@ -149,8 +152,8 @@ def name_input_screen(number_of_players):
         text("Speler "+ str(y)+": ", 210, YPositionText)
         fill(255,255,255)
         x -= 1
-        YPositionRect += 100
-        YPositionText += 100
+        YPositionRect += 80
+        YPositionText += 80
         y += 1
         
     """
@@ -176,8 +179,8 @@ def name_input_screen(number_of_players):
     elif player4_box_selected == True:
         fill(230, 230, 230)
         #rect(690, 500, 250, 40, 6)
-    #elif player5_box_selected == True:
-        #fill(230, 230, 230)
+    elif player5_box_selected == True:
+        fill(230, 230, 230)
         #rect(690, 600, 250, 40, 6)
     #elif player6_box_selected == True:
         #fill(230, 230, 230)
@@ -185,11 +188,11 @@ def name_input_screen(number_of_players):
 
     fill(0, 0, 0)    
     textAlign(LEFT)
-    text(player1_name, 300, 232)    
-    text(player2_name, 300, 332)    
-    text(player3_name, 300, 432)    
-    text(player4_name, 300, 532)    
-    text(player5_name, 300, 632)
+    text(player1_name, 300, 182)    
+    text(player2_name, 300, 262)    
+    text(player3_name, 300, 342)    
+    text(player4_name, 300, 422)    
+    text(player5_name, 300, 502)
     print(number_of_players)
     textAlign(CENTER)
     fill(255,255,255)
@@ -239,53 +242,56 @@ def mousePressed(players):
     global number_of_players, name_input_screen_display, main_screen_display
     global player1_box_selected, player2_box_selected, player3_box_selected
     global player4_box_selected, player5_box_selected, player6_box_selected
-    global player_starting
+    global player_starting,backCo
     global isMouseWithinSpace
     global show_empty_name_error
-    number_of_players = players
+    global player1_name, player2_name, player3_name, player4_name, player5_name, player6_name
     global s2
     
+        
+        
     if show_empty_name_error == True:
         if (mouseX >= screenWidth/2 + 360 and mouseX <= screenWidth/2 + 420) and (mouseY >= screenHeight/2 - 20 and mouseY <= screenHeight/2 + 20):
                 show_empty_name_error = False
+    
     #Checks if the user has clicked on a certain textbox to begin input
     else:
-        if (mouseX >= 290 and mouseX <= 550) and (mouseY >= 200 and mouseY <= 240):
+        if (mouseX >= 290 and mouseX <= 550) and (mouseY >= 150 and mouseY <= 190):
             player1_box_selected = True
             player2_box_selected = False
             player3_box_selected = False
             player4_box_selected = False
             player5_box_selected = False
             player6_box_selected = False        
-        elif (mouseX >= 290 and mouseX <= 550) and (mouseY >= 300 and mouseY <= 340):
+        elif (mouseX >= 290 and mouseX <= 550) and (mouseY >= 230 and mouseY <= 270):
             player1_box_selected = False
             player2_box_selected = True
             player3_box_selected = False
             player4_box_selected = False
             player5_box_selected = False
             player6_box_selected = False            
-        elif (mouseX >= 290 and mouseX <= 550) and (mouseY >= 400 and mouseY <= 440):
+        elif (mouseX >= 290 and mouseX <= 550) and (mouseY >= 310 and mouseY <= 350):
             player1_box_selected = False
             player2_box_selected = False
             player3_box_selected = True
             player4_box_selected = False
             player5_box_selected = False
-            player6_box_selected = False        
-        elif ((mouseX >= 290 and mouseX <= 550) and (mouseY >= 500 and mouseY <= 540)) and number_of_players > 3:
+            player6_box_selected = False       
+        elif (mouseX >= 290 and mouseX <= 550) and (mouseY >= 390 and mouseY <= 430):
             player1_box_selected = False
             player2_box_selected = False
             player3_box_selected = False
             player4_box_selected = True
             player5_box_selected = False
             player6_box_selected = False        
-        elif ((mouseX >= 290 and mouseX <= 550) and (mouseY >= 600 and mouseY <= 640)) and number_of_players > 4:
+        elif ((mouseX >= 290 and mouseX <= 550) and (mouseY >= 470 and mouseY <= 510)) and number_of_players > 4:
             player1_box_selected = False
             player2_box_selected = False
             player3_box_selected = False
             player4_box_selected = False
             player5_box_selected = True
             player6_box_selected = False            
-        elif ((mouseX >= 290 and mouseX <= 550) and (mouseY >= 700 and mouseY <= 740)) and number_of_players > 5:
+        elif ((mouseX >= 290 and mouseX <= 550) and (mouseY >= 550 and mouseY <= 590)) and number_of_players > 5:
             player1_box_selected = False
             player2_box_selected = False
             player3_box_selected = False
@@ -325,14 +331,16 @@ def mousePressed(players):
                 elif number_of_players > 4:
                     player_names = [player1_name, player2_name, player3_name, player4_name,player5_name]
                 return player_names
+    
                 
             
 
-
+def mouseInRect(x,y,w,h):
+    return (x<mouseX<x+w) and (y<mouseY<y+h)
 def keyPressed():
     global player1_name, player2_name, player3_name, player4_name, player5_name, player6_name
     global player1_box_selected, player2_box_selected, player3_box_selected
-    global player4_box_ted, player6_box_selected
+    global player4_box_selected,player5_box_selected, player6_box_selected,number_of_players
     
     #Checks if the key pressed is a letter and if so adds it to the player whose textbox is currently selected
     if (key == 'a' or key == 'A' 
@@ -393,12 +401,66 @@ def keyPressed():
                 player5_name += key
         elif (player5_box_selected == True) and (key == '\b'):
             player5_name = player5_name[:-1]
+
         
-        elif (player6_box_selected == True) and (key != '\b'):
-            if len(player6_name) < 10:
-                player6_name += key
-        elif (player6_box_selected == True) and (key == '\b'):
-            player6_name = player6_name[:-1]
+    elif keyCode == 9:
+        if number_of_players == 2:
+            if player1_box_selected == True:
+                player1_box_selected = False
+                player2_box_selected = True
+            elif player2_box_selected == True:
+                player2_box_selected = False
+                player1_box_selected = True
+            else:
+                player1_box_selected = True
+                
+        elif number_of_players == 3:
+            if player1_box_selected == True:
+                player1_box_selected = False
+                player2_box_selected = True
+            elif player2_box_selected == True:
+                player2_box_selected = False
+                player3_box_selected = True
+            elif player3_box_selected == True:
+                player3_box_selected = False
+                player1_box_selected = True
+            else:
+                player1_box_selected = True
+                
+        elif number_of_players == 4:
+            if player1_box_selected == True:
+                player1_box_selected = False
+                player2_box_selected = True
+            elif player2_box_selected == True:
+                player2_box_selected = False
+                player3_box_selected = True
+            elif player3_box_selected == True:
+                player3_box_selected = False
+                player4_box_selected = True
+            elif player4_box_selected == True:
+                player4_box_selected = False
+                player1_box_selected = True 
+            else:
+                player1_box_selected = True
+                
+        elif number_of_players == 5:
+            if player1_box_selected == True:
+                player1_box_selected = False
+                player2_box_selected = True
+            elif player2_box_selected == True:
+                player2_box_selected = False
+                player3_box_selected = True
+            elif player3_box_selected == True:
+                player3_box_selected = False
+                player4_box_selected = True
+            elif player4_box_selected == True:
+                player4_box_selected = False
+                player5_box_selected = True 
+            elif player5_box_selected == True:
+                player5_box_selected = False
+                player1_box_selected = True
+            else:
+                player1_box_selected = True
             
 def hollowRect(x,y,w,h):
     line(x,y,x+w,y)

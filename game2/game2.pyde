@@ -7,7 +7,7 @@ import os
 
 add_library('minim')
 test = Minim(this)
-#menu vars
+#menu varsz
 #menu vars
 #game vars
 p1 = False
@@ -1007,6 +1007,7 @@ def mousePressed():
             if mouseInRect(*backCo):
                 scherm = 1
                 players = 0
+                playerNames = []
             if mouseInRect(*okCo):
                 scherm = 3
                 #naar aantal spelers
@@ -1026,6 +1027,7 @@ def mousePressed():
             newBackGo = screen3.getCoordinates()
             if mouseInRect(*newBackGo):
                 scherm = scherm - 1
+                
                 #naar main menu
     else:
         if not startb:

@@ -22,7 +22,7 @@ allTaken = False
 
 global flagDict,flags
 flagDict = {}
-flags = ["otto","nl","eng","spa"]
+flags = ["otto","nl","eng","spa","pir"]
 global allPlayersChosen
 allPlayersChosen = False
 
@@ -30,11 +30,7 @@ global playerCount
 playercount = ""
 
 def setup():
-    w = width/7          
-    x = width/2-width/7-width/14
-    y = height/3.5
-    x2 = width/2 + width/14
-    y2 = y + w + height/14
+
     
     
     global backCo
@@ -44,11 +40,21 @@ def setup():
     backH = 50
     backCo = [backX,backY,backW,backH]
     
+    w = width/7          
+    x = width/2-width/7-width/10
+    y = height/3.5
+    x2 = width/2 + width/10
+    y2 = y + w + height/14
+    
+    x3 = width/2-w/14
+    y3 = height/2-w/2
+
     #1player
     engCo = [x,y,w,w]
     nlCo = [x2,y,w,w]
     spaCo = [x,y2,w,w]
     ottoCo = [x2,y2,w,w]
+    pirCo = [x3,y3,w,w]
     
 def returnFlagDict():
     return flagDict
@@ -69,24 +75,22 @@ def draw(players, playerNames):
     f = createFont("Harrington",32)
     textFont(f,30) 
     
+    
     w = width/7          
-    x = width/2-width/7-width/14
+    x = width/2-width/7-width/10
     y = height/3.5
-    x2 = width/2 + width/14
+    x2 = width/2 + width/10
     y2 = y + w + height/14
     
-    
-    backX = width/7
-    backY = height-height/7
-    backW = 150
-    backH = 50
-    backCo = [backX,backY,backW,backH]
-    
+    x3 = width/2-w/2
+    y3 = height/2-w/2
+
     #1player
     engCo = [x,y,w,w]
     nlCo = [x2,y,w,w]
     spaCo = [x,y2,w,w]
     ottoCo = [x2,y2,w,w]
+    pirCo = [x3,y3,w,w]
     
     players = ""
     amountPlayers = False
@@ -118,7 +122,10 @@ def draw(players, playerNames):
         rect(*ottoCo)
 
         text("OTTO",ottoCo[0]+ottoCo[2]/2,ottoCo[1]+ottoCo[3]/2)  
-    
+    if "pir" in flags:
+        rect(*pirCo)
+        
+        text("PIR",pirCo[0]+pirCo[2]/2,pirCo[1]+pirCo[3]/2)
     '''
     if 'eng' or 'nl' or 'spa' or 'otto' not in flagDict.keys():
             
@@ -182,6 +189,12 @@ def isMouseInSpace(x, y, w, h):
     return(x < mouseX < x + w and y < mouseY < y + h)
 
 def getCoordinates():
+    global backCo
+    backX = width/7
+    backY = height-height/7
+    backW = 250
+    backH = 50
+    backCo = [backX,backY,backW,backH]
     return backCo
 
 def getAllTaken():
@@ -208,18 +221,22 @@ def mousePressed(playerNames, players):
     currentSpeler = getCurrentPlayer()
     
     w = width/7          
-    x = width/2-width/7-width/14
+    x = width/2-width/7-width/10
     y = height/3.5
-    x2 = width/2 + width/14
+    x2 = width/2 + width/10
     y2 = y + w + height/14
+    
+    x3 = width/2-w/2
+    y3 = height/2-w/2
 
     #1player
     engCo = [x,y,w,w]
     nlCo = [x2,y,w,w]
     spaCo = [x,y2,w,w]
     ottoCo = [x2,y2,w,w]
+    pirCo = [x3,y3,w,w]
     
-    if isMouseInSpace(*engCo) or isMouseInSpace(*nlCo) or isMouseInSpace(*spaCo) or isMouseInSpace(*ottoCo):
+    if isMouseInSpace(*engCo) or isMouseInSpace(*nlCo) or isMouseInSpace(*spaCo) or isMouseInSpace(*ottoCo) or isMouseInSpace(*pirCo):
         if "eng" in flags:
             if isMouseInSpace(*engCo):
                 flagDict[playerNames[currentSpeler]] = "eng"
@@ -244,6 +261,11 @@ def mousePressed(playerNames, players):
                 flagDict[playerNames[currentSpeler]] = "otto"
                 s3.setCurrentPlayer(currentSpeler + 1)
                 flags.remove("otto")
+        if "pir" in flags:
+            if isMouseInSpace(*pirCo):
+                flagDict[playerNames[currentSpeler]] = "pir"
+                s3.setCurrentPlayer(currentSpeler + 1)
+                flags.remove("pir")
         
             
     """

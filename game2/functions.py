@@ -19,7 +19,8 @@ startPosDict = {
     "otto" : 7,
     "spa" : 27,
     "eng" : 47,
-    "nl" : 67
+    "nl" : 67,
+    "pir": 0
 }
 
 emps = [otto,spa,eng,nl]
