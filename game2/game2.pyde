@@ -28,7 +28,7 @@ acp = False
 game = False
 menu = True
 cha = False
-
+rolling = False
 
 
 rolled = False
@@ -365,8 +365,8 @@ def draw():
     elif game:
         global main,curEmp,flash,q,a,rolled,finish,chanceb,noCard
         global curplayer,difb,quest,kaart,cardArr
-        global mainDice,start,p1,turn,cp,chosenplayer,acp,secondcolor
-        
+        global mainDice,start,p1,turn,cp,chosenplayer,acp,secondcolor,rolling
+        rolling = False
         secondcolor = color(146,128,60)
 
         background(mainColor)
@@ -375,8 +375,9 @@ def draw():
         image(frame,0,0,width,height)
         curplayer = checkTurn()
         
-        print(question,answer)
+        print(rolling)
         print(turn)
+        print(start,eind)
     
     
         try:
@@ -384,43 +385,58 @@ def draw():
             curEmp = functions.isInEmpire(curplayer.getPos())
         except AttributeError:
             curEmp = None
+        global rolCo,rolCoText
+        rolCo = [width-350,height/2+150,100,50]
+        rolCoText = [width-300,height/2+170]
+        
         statBox(width/10,height/6,width/2,height/1.75)
+        fill(mainColor)
+        rect(*rolCo)
+        textAlign(CENTER)
+        fill(0)
+        text("Rol",*rolCoText)
         if main:
             textAlign(CENTER)
-            if not(rolled) or start <= eind:
+            if not(rolled) or start >= eind:
                 text("klik om te rollen",width/2,height/8)
         
                 
             if start <= eind:
                 mainDice.showdobbel(random.randint(1,6))
+                rolling = True
                 if start == eind and turn > 0:
                     mainDice.roll()
-                    curplayer.changePos(mainDice.value)
                     p1 = False
                     rolled = True
         
                 start += 1
             else:
                 if rolled:
-                    try:
-                        if curEmp != prevEmp and curEmp != "neut":
-                            if curplayer.notol:
-                                curplayer.notol = False
-                            else:
-                                curplayer.enterEmp()
-                        if mainBoard.checkQuestion(curplayer.getPos()):
-                            curEmp = functions.isInEmpire(curplayer.getPos())
-                            difb = True
-                            main = False
-                                
-                        elif mainBoard.checkEvent(curplayer.getPos()) and cha:
-                            curEmp = functions.isInEmpire(curplayer.getPos())
-                            noCard = True
-                            chanceb = True
-                            main = False
+                    rolling = False
+                    if mousePressed:
+                        curplayer.changePos(mainDice.value)
+                        rolled = False
 
-                    except AttributeError:
-                        print("not yet")
+
+                        try:
+                            if curEmp != prevEmp and curEmp != "neut":
+                                if curplayer.notol:
+                                    curplayer.notol = False
+                                else:
+                                    curplayer.enterEmp()
+                            if mainBoard.checkQuestion(curplayer.getPos()):
+                                curEmp = functions.isInEmpire(curplayer.getPos())
+                                difb = True
+                                main = False
+                                    
+                            elif mainBoard.checkEvent(curplayer.getPos()) and cha:
+                                curEmp = functions.isInEmpire(curplayer.getPos())
+                                noCard = True
+                                chanceb = True
+                                main = False
+
+                        except AttributeError:
+                            print("not yet")
                 fill(0)
                 mainDice.showdobbel(mainDice.value)
         if difb:
@@ -1033,13 +1049,14 @@ def mousePressed():
         if not startb:
             startFunc()
         elif main:
-            if p1 and start >= eind:
+            if not(rolling) and p1 and start >= eind and mouseInRect(*rolCo):
                 rollProcess1()
             else:
-                changeTurn()
-                while curplayer.getWait() > 0:
+                if not(rolling) and mouseInRect(*rolCo):
                     changeTurn()
-                p1 = True
+                    while curplayer.getWait() > 0:
+                        changeTurn()
+                    p1 = True
 
 def checkTurn():
     global curplayer

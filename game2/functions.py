@@ -204,6 +204,7 @@ class player:
         self.wait = 0
         self.coins = 10
         self.notol = False
+        self.inventory = {1:None,2:None,3:None}
     
     def changeCoins(self,x):
         self.coins += x
@@ -240,6 +241,15 @@ class player:
     def delFlag(self,flag):
         self.flags[flag] = False
         self.count -= 1
+    def addCard(self,card):
+        for k in self.inventory:
+            if self.inventory[k] == None:
+                self.inventory[k] = card
+    def invFull(self):
+        for k in self.inventory:
+            if self.inventory[k] == None:
+                return False
+            return True
 def checkFlags(current,other):
     curflags = current.flags
     otherflags = {}
