@@ -245,6 +245,7 @@ class player:
         for k in self.inventory:
             if self.inventory[k] == None:
                 self.inventory[k] = card
+                
     def invFull(self):
         for k in self.inventory:
             if self.inventory[k] == None:

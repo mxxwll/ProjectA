@@ -53,7 +53,7 @@ answer = ""
 
 
 
-empDict = {"otto":"Ottomaanse Rijk","nl":"Nederlandse Rijk","spa":"Spaanse Rijk","eng":"Engelse Rijk"}
+empDict = {"otto":"Ottomaanse Rijk","nl":"Nederlandse Rijk","spa":"Spaanse Rijk","eng":"Engelse Rijk","pir":"Piraat"}
 
 
 
@@ -71,7 +71,7 @@ def txtToDict(ldstrings):
 
 
 
-\
+
 
 
 mainBoard = functions.board()
@@ -389,7 +389,7 @@ def draw():
         rolCo = [width-350,height/2+150,100,50]
         rolCoText = [width-300,height/2+170]
         
-        statBox(width/10,height/6,width/2,height/1.75)
+        statBox(width/10,height/6,width/2,height/6.5*len(players)+1)
         fill(mainColor)
         rect(*rolCo)
         textAlign(CENTER)
@@ -629,24 +629,18 @@ def drawECard(x,y,w,h):
     # cardarr = [ctf,diplo,embargo,gehrout,golf,huur,smeer,smok,verl,winst]
     #ctf
     if kaart == 0:
-        kaart = 8
+        kaart = 8    
     if mousePressed:
-        #ctf *
-        if kaart == 0:
-            if mousePressed:
-                chanceb = False
-                cap = True
         #diplo 
-        elif kaart == 1:
+        if kaart == 1:
             curplayer.diplom()
             if mousePressed: 
-                curplayer.addWait(1)
                 chanceb = False
                 main = True
                 cha = True
         #embargo
         elif kaart == 2:
-            if mousePressed:    
+            if mousePressed:   
                 curplayer.addWait(1)
                 chanceb = False
                 main = True
@@ -954,7 +948,6 @@ def statBox(x,y,w,h):
     fill(0)
     textAlign(RIGHT)
     fill(mainColor)
-    rect(x,y,w,h)
     fill(0)
     image(frame,x,y,w,h)
     textSize(25)
@@ -970,7 +963,7 @@ def statBox(x,y,w,h):
     try:
         text("Aan de beurt: "+curplayer.name,x+w/4,y+(70*(len(players)+1)))
     except AttributeError:
-        text("Aan de beurt: ",x+w/4,y+(70*5))
+        text("Aan de beurt: ",x+w/4,y+(70*(len(players)+1)))
         
 def startFunc():
     global startb,players
