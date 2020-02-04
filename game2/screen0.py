@@ -15,14 +15,14 @@ def setup():
     backCo = [backX,backY,backW,backH]
     
     global contCo
-    contX = width/7
+    contX = width/8
     contY = height/4-height/20
     contW = 350
     contH = 100
     contCo = [contX,contY,contW,contH]
     
     global guideCo
-    guideX = width/7
+    guideX = width/8
     guideY = contY + contH + height/40
     guideW = 350
     guideH = 100

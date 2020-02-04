@@ -145,8 +145,42 @@ def name_input_screen(number_of_players):
     YPositionText = 182
     y = player_number = 1
     
-    while x > 0:        
-        fill(255,255,255)
+    while x > 0:
+        fill(255)    
+        if number_of_players == 2:
+            if x == 2 and player1_box_selected:
+                fill(180)
+            elif x == 1 and player2_box_selected:
+                fill(180)
+        elif number_of_players == 3:
+            if x == 3 and player1_box_selected:
+                fill(180)
+            elif x == 2 and player2_box_selected:
+                fill(180)
+            elif x == 1 and player3_box_selected:
+                fill(180)
+        elif number_of_players == 4:
+            if x == 4 and player1_box_selected:
+                fill(180)
+            elif x == 3 and player2_box_selected:
+                fill(180)
+            elif x == 2 and player3_box_selected:
+                fill(180)
+            elif x == 1 and player4_box_selected:
+                fill(180)
+        elif number_of_players == 5:
+            if x == 5 and player1_box_selected:
+                fill(180)
+            elif x == 4 and player2_box_selected:
+                fill(180)
+            elif x == 3 and player3_box_selected:
+                fill(180)
+            elif x == 2 and player4_box_selected:
+                fill(180)
+            elif x == 1 and player5_box_selected:
+                fill(180)
+            
+                
         rect(290, YPositionRect, 250, 40, 6)
         fill(0)
         text("Speler "+ str(y)+": ", 210, YPositionText)

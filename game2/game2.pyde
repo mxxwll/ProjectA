@@ -118,7 +118,7 @@ class dice:
         elif roll == 5:
             circle(x+w/2,y+w/2,10)
             circle(x+w - w/6,y+w/6,10)
-            circle(x+w/6,y+w-w/6,10)
+            circle(x+w/6,y+w-w/6,10)  
             circle(x+w/6,y+w/6,10)
             circle(x+ w - w/6,y+w-w/6,10)
         elif roll == 6:
@@ -199,7 +199,11 @@ def setup():
     mainColor = color(234,222,191)
     
     screen0.setup()
-
+    
+    global sound
+    sound = 'buttonsound6.mp3'
+    sound = test.loadFile(sound,2048)
+    
     global standardFont
     standardFont = createFont("Harrington",25)
     
@@ -243,24 +247,24 @@ def setup():
     backCo = [backX,backY,backW,backH]
     
     global contCo
-    contX = width/7
+    contX = width/8
     contY = height/4-height/20
     contW = 350
     contH = 100
     contCo = [contX,contY,contW,contH]
+    
+    global guideCo
+    guideX = width/8
+    guideY = contY + contH + height/40
+    guideW = 350
+    guideH = 100
+    guideCo = [guideX,guideY,guideW,guideH]
     
     global okCo
     okCoX = 750
     okCoY = 600
     okCo = [okCoX, okCoY, backW,backH]
     
-    global guideCo
-    guideX = width/7
-    guideY = contY + contH + height/40
-    guideW = 350
-    guideH = 100
-    guideCo = [guideX,guideY,guideW,guideH]
-
     global slist,s,shift
     slist = []
     s = ""
@@ -389,7 +393,7 @@ def draw():
         rolCo = [width-350,height/2+150,100,50]
         rolCoText = [width-300,height/2+170]
         
-        statBox(width/10,height/6,width/2,height/6.5*len(players)+1)
+        statBox(width/10,height/6,width/2,90*len(players)+1)
         fill(mainColor)
         rect(*rolCo)
         textAlign(CENTER)
@@ -954,16 +958,16 @@ def statBox(x,y,w,h):
     lis = sorted(players,key=lambda x:x.startpos,reverse=False)
     for i in range(len(lis)):
         textAlign(RIGHT)
-        text(lis[i].name + ":",x+w/4,y+(70*(i+1)))
+        text(lis[i].name + ":",x+w/3-4,y+(70*(i+1))-40)
         textAlign(LEFT)
-        text("positie: " + str(lis[i].curpos) + ", vlaggen: " + str(lis[i].count),x+w/4+w/10,y+(70*(i+1)))
-        text(empDict[lis[i].empire] + ", munten: " + str(lis[i].getCoins()),x+w/4+w/10,y+(70*(i+1.45)))
+        text("positie: " + str(lis[i].curpos) + ", vlaggen: " + str(lis[i].count),x+w/3,y+(70*(i+1))-40)
+        text(empDict[lis[i].empire] + ", munten: " + str(lis[i].getCoins()),x+w/3,y+(70*(i+1.45))-40)
         
     textAlign(LEFT)
     try:
-        text("Aan de beurt: "+curplayer.name,x+w/4,y+(70*(len(players)+1)))
+        text("Aan de beurt: "+curplayer.name,x+w/4,y+(70*(len(players)+1))-40)
     except AttributeError:
-        text("Aan de beurt: ",x+w/4,y+(70*(len(players)+1)))
+        text("Aan de beurt: ",x+w/4,y+(70*(len(players)+1))-40)
         
 def startFunc():
     global startb,players
@@ -978,11 +982,13 @@ def hasName(s,player):
 def mousePressed():
     global p1
     if menu:
+        
         global playerNames, empirePlayer
         global posDict,flagDict
         flagDict = {}
         playerNames = []
         
+        sound.loop(0)
         global scherm
         global players
         if scherm == 0: 
