@@ -102,7 +102,7 @@ def draw(players, playerNames):
     text(str(playerNames[currentSpeler]),width/2,height/8)
     print(flagDict)
         
-    text("Select your empire: ", width/2, height / 5)
+    text("Kies uw rijk: ", width/2, height / 5)
         
     text("Terug",backCo[0]+backCo[2]/2,backCo[1]+backCo[3]*0.75)
         
